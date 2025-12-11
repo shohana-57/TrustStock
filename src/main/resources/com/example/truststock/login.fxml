@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="400" prefWidth="600" style="-fx-background-color: #f5f5f5; -fx-background-radius: 17;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.truststock.login">
+    <children>
+      <HBox prefHeight="400.0" prefWidth="600.0" style="-fx-background-radius: 20;">
+         <children>
+               <ImageView fx:id="logoImage" fitHeight="401.0" fitWidth="273.0" preserveRatio="false" smooth="true">
+                   <image>
+                       <Image url="@images/Login_Pic.png" />
+                   </image>
+               <viewport>
+                  <Rectangle2D height="300.0" minY="300.0" />
+               </viewport>
+               </ImageView>
+              <VBox alignment="CENTER" prefHeight="400.0" prefWidth="409.0" spacing="10.0" style="-fx-background-image: url(TrustStock_icon.png); -fx-background-repeat: stretch; -fx-background-size: cover; -fx-background-position: center;">
+         
+                              <Label style="-fx-font-size: 28px; -fx-font-weight: bold;" text="Welcome to TrustStock" />
+      
+                              <Label style="-fx-font-size: 20px;" text="Enter As?" />
+                  <Button fx:id="btnCompanyStaff" onAction="#openStaffLoginPage" prefHeight="48.0" prefWidth="203.0" style="-fx-padding: 10 40; -fx-cursor: open-hand; -fx-font-size: 18px; -fx-background-color: #c374f7;" styleClass="my-button" stylesheets="@login.css" text="Company Staff" />
+         
+                        <Button fx:id="btnCustomer" onAction="#openCustomerPage" style="-fx-padding: 10 40; -fx-cursor: open-hand; -fx-font-size: 18px; -fx-background-color: #c374f7;" styleClass="my-button" stylesheets="@login.css" text="Customer" />
+              </VBox>
+         </children>
+      </HBox>
+
+    </children>
+</AnchorPane>
