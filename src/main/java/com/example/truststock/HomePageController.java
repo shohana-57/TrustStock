@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class login {
+public class HomePageController {
 
     @FXML
     private ImageView logoImage;
