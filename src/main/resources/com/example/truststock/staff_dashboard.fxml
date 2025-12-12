@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.truststock.StaffDashboardController"
+            prefWidth="900" prefHeight="600">
+    <left>
+        <VBox spacing="12" style="-fx-background-color:#263238; -fx-padding:20;">
+            <Label text="Staff Dashboard" style="-fx-text-fill: white; -fx-font-size:16;"/>
+            <Button text="Inventory" onAction="#openInventory" style="-fx-background-color:transparent; -fx-text-fill:white;"/>
+            <Button text="Quality Check" onAction="#openQuality" style="-fx-background-color:transparent; -fx-text-fill:white;"/>
+            <Button text="Replace Bad Items" onAction="#openReplace" style="-fx-background-color:transparent; -fx-text-fill:white;"/>
+            <Button text="Low Stock Alerts" onAction="#openAlerts" style="-fx-background-color:transparent; -fx-text-fill:white;"/>
+        </VBox>
+    </left>
+
+    <top>
+        <HBox alignment="CENTER_RIGHT" style="-fx-padding:10;">
+            <Button text="Logout" onAction="#logout" style="-fx-background-color:#E53935; -fx-text-fill:white;"/>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox alignment="CENTER" spacing="10">
+            <Label text="Welcome, Staff" style="-fx-font-size:20; -fx-font-weight:bold;"/>
+            <Label text="Choose an option from the left menu."/>
+        </VBox>
+    </center>
+</BorderPane>
