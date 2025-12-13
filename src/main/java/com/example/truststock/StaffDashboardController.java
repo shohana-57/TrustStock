@@ -1,15 +1,20 @@
 package com.example.truststock;
+import com.example.truststock.model.Staff_User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 
+import java.awt.*;
 import java.io.IOException;
 
 public class StaffDashboardController {
 
+    public Label lblWelcome;
+    public Label lblRole;
     @FXML
     private Button btnLogout;
 
@@ -26,22 +31,22 @@ public class StaffDashboardController {
 
     @FXML
     void openInventory() {
-        // TODO: load inventory page
+
     }
 
     @FXML
     void openQuality() {
-        // TODO: load quality checker page
+
     }
 
     @FXML
     void openReplace() {
-        // TODO: load replace page
+
     }
 
     @FXML
     void openAlerts() {
-        // TODO: load alerts page
+
     }
 
 
@@ -56,4 +61,8 @@ public class StaffDashboardController {
         stage.show();
     }
 
+    public void setUser(Staff_User user) {
+        lblWelcome.setText("Welcome, " + user.getFullName());
+        lblRole.setText("Role: " + user.getRole());
+    }
 }

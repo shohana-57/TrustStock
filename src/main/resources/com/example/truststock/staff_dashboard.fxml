@@ -19,7 +19,8 @@
 
     <center>
         <VBox alignment="CENTER" spacing="10">
-            <Label style="-fx-font-size:20; -fx-font-weight:bold;" text="Welcome, Staff" />
+            <Label fx:id="lblWelcome" style="-fx-font-size:20; -fx-font-weight:bold;" text="Welcome, " />
+            <Label fx:id="lblRole" style="-fx-font-size:20; -fx-font-weight:bold;"  />
             <Label text="Choose an option from the left menu." />
         </VBox>
     </center>
