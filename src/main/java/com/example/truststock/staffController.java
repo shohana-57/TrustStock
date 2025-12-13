@@ -1,6 +1,7 @@
 package com.example.truststock;
 
 import com.example.truststock.db.Database;
+import com.example.truststock.model.Staff_User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -24,28 +25,51 @@ public class staffController {
             return;
         }
 
-        String role = Database.authenticate(u, p);
-        if (role == null) {
+        Staff_User user = Database.authenticateUser(u, p);
+
+        if (user == null) {
             lblMessage.setText("Invalid credentials.");
             return;
         }
 
         try {
-            if (role.equalsIgnoreCase("ADMIN") || role.equalsIgnoreCase("MANAGER") || role.equalsIgnoreCase("STOCK")) {
-                Parent root = FXMLLoader.load(getClass().getResource("/com/example/truststock/staff_dashboard.fxml"));
-                Stage stage = (Stage) txtUsername.getScene().getWindow();
-                stage.setScene(new Scene(root));
-            } else if (role.equalsIgnoreCase("QC")) {
-                Parent root = FXMLLoader.load(getClass().getResource("/com/example/truststock/quality_checker.fxml"));
-                Stage stage = (Stage) txtUsername.getScene().getWindow();
-                stage.setScene(new Scene(root));
-            } else if (role.equalsIgnoreCase("CUSTOMER")) {
-                Parent root = FXMLLoader.load(getClass().getResource("/com/example/truststock/customer_page.fxml"));
-                Stage stage = (Stage) txtUsername.getScene().getWindow();
-                stage.setScene(new Scene(root));
-            } else {
-                lblMessage.setText("Unknown role: " + role);
+            Stage stage = (Stage) txtUsername.getScene().getWindow();
+            FXMLLoader loader;
+            Parent root;
+
+            switch (user.getRole().toUpperCase()) {
+
+                case "ADMIN":
+                case "MANAGER":
+                case "STOCK":
+                    loader = new FXMLLoader(getClass()
+                            .getResource("/com/example/truststock/staff_dashboard.fxml"));
+                    root = loader.load();
+
+                    StaffDashboardController staffCtrl = loader.getController();
+                    staffCtrl.setUser(user);
+                    break;
+
+                case "QC":
+                    loader = new FXMLLoader(getClass()
+                            .getResource("/com/example/truststock/quality_checker.fxml"));
+                    root = loader.load();
+                    break;
+
+                case "CUSTOMER":
+                    loader = new FXMLLoader(getClass()
+                            .getResource("/com/example/truststock/customer_page.fxml"));
+                    root = loader.load();
+                    break;
+
+                default:
+                    lblMessage.setText("Unknown role: " + user.getRole());
+                    return;
             }
+
+            stage.setScene(new Scene(root));
+            stage.show();
+
         } catch (Exception ex) {
             ex.printStackTrace();
             lblMessage.setText("Failed to open dashboard.");
@@ -55,7 +79,9 @@ public class staffController {
     @FXML
     void openCustomerView() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/com/example/truststock/customer_page.fxml"));
+            Parent root = FXMLLoader.load(
+                    getClass().getResource("/com/example/truststock/customer_page.fxml")
+            );
             Stage stage = (Stage) txtUsername.getScene().getWindow();
             stage.setScene(new Scene(root));
         } catch (Exception e) {
