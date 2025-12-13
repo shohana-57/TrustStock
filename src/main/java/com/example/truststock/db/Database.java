@@ -1,5 +1,7 @@
 package com.example.truststock.db;
 
+import com.example.truststock.model.Staff_User;
+
 import java.sql.*;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
@@ -36,6 +38,27 @@ public class Database {
                     quality_status TEXT DEFAULT 'GOOD'
                 )
             """);
+
+            st.execute("""
+    CREATE TABLE IF NOT EXISTS sales (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        product_id INTEGER,
+        quantity INTEGER,
+        sale_date TEXT,
+        FOREIGN KEY(product_id) REFERENCES products(id)
+    )
+         """);
+
+            st.execute("""
+    CREATE TABLE IF NOT EXISTS restocks (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        product_id INTEGER,
+        quantity INTEGER,
+        restock_date TEXT,
+        FOREIGN KEY(product_id) REFERENCES products(id)
+    )
+        """);
+
 
 
             if (!userExists(conn, "admin")) {
@@ -115,4 +138,34 @@ public class Database {
             return null;
         }
     }
+
+    public static Staff_User authenticateUser(String username, String plainPassword) {
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(
+                     "SELECT id, username, full_name, password_hash, salt, role FROM users WHERE username = ?")) {
+
+            ps.setString(1, username);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) return null;
+
+                String storedHash = rs.getString("password_hash");
+                byte[] salt = Base64.getDecoder().decode(rs.getString("salt"));
+                String computed = PasswordUtil.hashPassword(plainPassword, salt);
+
+                if (MessageDigest.isEqual(storedHash.getBytes(), computed.getBytes())) {
+                    return new Staff_User(
+                            rs.getInt("id"),
+                            rs.getString("username"),
+                            rs.getString("full_name"),
+                            rs.getString("role")
+                    );
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
