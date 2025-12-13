@@ -153,7 +153,7 @@ public class Database {
                 byte[] salt = Base64.getDecoder().decode(rs.getString("salt"));
                 String computed = PasswordUtil.hashPassword(plainPassword, salt);
 
-                if (MessageDigest.isEqual(storedHash.getBytes(), computed.getBytes())) {
+                if (storedHash.equals(computed)) {
                     return new Staff_User(
                             rs.getInt("id"),
                             rs.getString("username"),
