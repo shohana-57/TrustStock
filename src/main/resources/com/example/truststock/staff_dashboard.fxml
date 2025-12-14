@@ -10,10 +10,10 @@
     <left>
         <VBox spacing="12" style="-fx-background-color:#263238; -fx-padding:20;">
             <Label style="-fx-text-fill: white; -fx-font-size:16;" text="Staff Dashboard" />
-            <Button onAction="#openInventory" style="-fx-background-color:transparent; -fx-text-fill:white;" text="Inventory" />
-            <Button onAction="#openQuality" style="-fx-background-color:transparent; -fx-text-fill:white;" text="Quality Check" />
-            <Button onAction="#openReplace" style="-fx-background-color:transparent; -fx-text-fill:white;" text="Replace Bad Items" />
-            <Button onAction="#openAlerts" style="-fx-background-color:transparent; -fx-text-fill:white;" text="Low Stock Alerts" />
+            <Button fx:id="btnInventory" onAction="#openInventory" style="-fx-background-color:transparent; -fx-text-fill:white;" text="Inventory" />
+            <Button fx:id="btnQuality" onAction="#openQuality" style="-fx-background-color:transparent; -fx-text-fill:white;" text="Quality Check" />
+            <Button fx:id="btnReplace" onAction="#openReplace" style="-fx-background-color:transparent; -fx-text-fill:white;" text="Replace Bad Items" />
+            <Button fx:id="btnAlerts" onAction="#openAlerts" style="-fx-background-color:transparent; -fx-text-fill:white;" text="Low Stock Alerts" />
         </VBox>
     </left>
 
@@ -27,7 +27,7 @@
    <right>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-               <Button alignment="CENTER_RIGHT" onAction="#logout" prefHeight="34.0" prefWidth="56.0" style="-fx-background-color:#E53935; -fx-text-fill:white;" text="Logout">
+               <Button fx:id="btnLogout" alignment="CENTER_RIGHT" onAction="#logout" prefHeight="34.0" prefWidth="56.0" style="-fx-background-color:#E53935; -fx-text-fill:white;" text="Logout">
                <VBox.margin>
                   <Insets left="20.0" top="15.0" />
                </VBox.margin>

@@ -1,5 +1,6 @@
 package com.example.truststock;
 import com.example.truststock.model.Staff_User;
+import com.sun.javafx.menu.MenuItemBase;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,6 +16,10 @@ public class StaffDashboardController {
 
     public Label lblWelcome;
     public Label lblRole;
+    public Button btnInventory;
+    public Button btnReplace;
+    public Button btnQuality;
+    public Button btnAlerts;
     @FXML
     private Button btnLogout;
 
@@ -52,19 +57,42 @@ public class StaffDashboardController {
 
     @FXML
     void logout() throws IOException {
-        Stage stage = (Stage) btnLogout.getScene().getWindow();
 
-        Parent root = FXMLLoader.load(getClass().getResource("/com/example/truststock/HomePage.fxml"));
-        Scene scene = new Scene(root);
 
-        stage.setScene(scene);
-        stage.show();
-    }
+//        Parent root = FXMLLoader.load(getClass().getResource("/com/example/truststock/HomePage.fxml"));
+//        Stage stage = (Stage) btnLogout.getScene().getWindow();
+//        Scene scene = new Scene(root);
+//
+//        stage.setScene(scene);
+//        stage.show();
+        try {
+            Parent root = FXMLLoader.load(
+                    getClass().getResource("/com/example/truststock/HomePage.fxml")
+            );
+            Stage stage = (Stage) btnLogout.getScene().getWindow();
+            stage.setScene(new Scene(root));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+   }
     private Staff_User user;
 
     public void setUser(Staff_User user) {
         this.user=user;
         lblWelcome.setText("Welcome, " + user.getFullName());
         lblRole.setText("Role: " + user.getRole());
+        applyPermissions();
     }
+
+    private void applyPermissions() {
+        String role = user.getRole();
+
+      
+        btnInventory.setDisable(!(role.equals("ADMIN") || role.equals("STOCK")));
+        btnReplace.setDisable(!(role.equals("ADMIN") || role.equals("STOCK")));
+        btnQuality.setDisable(!role.equals("QC"));
+        btnAlerts.setDisable(!(role.equals("ADMIN") || role.equals("MANAGER")));
+    }
+
 }
