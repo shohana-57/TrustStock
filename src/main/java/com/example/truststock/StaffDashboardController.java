@@ -54,14 +54,16 @@ public class StaffDashboardController {
     void logout() throws IOException {
         Stage stage = (Stage) btnLogout.getScene().getWindow();
 
-        Parent root = FXMLLoader.load(getClass().getResource("/com/example/truststock/welcome_page.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/com/example/truststock/HomePage.fxml"));
         Scene scene = new Scene(root);
 
         stage.setScene(scene);
         stage.show();
     }
+    private Staff_User user;
 
     public void setUser(Staff_User user) {
+        this.user=user;
         lblWelcome.setText("Welcome, " + user.getFullName());
         lblRole.setText("Role: " + user.getRole());
     }

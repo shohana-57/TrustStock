@@ -38,39 +38,50 @@ db.getConnection();
             Stage stage = (Stage) txtUsername.getScene().getWindow();
             FXMLLoader loader;
             Parent root;
+             loader = new FXMLLoader(
+                    getClass().getResource("/com/example/truststock/staff_dashboard.fxml"));
+             root = loader.load();
 
-            switch (user.getRole().toUpperCase()) {
+            StaffDashboardController controller = loader.getController();
+            controller.setUser(user);   // pass logged-in staff
 
-                case "ADMIN":
-                case "MANAGER":
-                case "STOCK":
-                    loader = new FXMLLoader(getClass()
-                            .getResource("/com/example/truststock/staff_dashboard.fxml"));
-                    root = loader.load();
-
-                    StaffDashboardController staffCtrl = loader.getController();
-                    staffCtrl.setUser(user);
-                    break;
-
-                case "QC":
-                    loader = new FXMLLoader(getClass()
-                            .getResource("/com/example/truststock/quality_checker.fxml"));
-                    root = loader.load();
-                    break;
-
-                case "CUSTOMER":
-                    loader = new FXMLLoader(getClass()
-                            .getResource("/com/example/truststock/customer_page.fxml"));
-                    root = loader.load();
-                    break;
-
-                default:
-                    lblMessage.setText("Unknown role: " + user.getRole());
-                    return;
-            }
-
+             stage = (Stage) txtUsername.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
+
+
+//            switch (user.getRole().toUpperCase()) {
+//
+//                case "ADMIN":
+//                case "MANAGER":
+//                case "STOCK":
+//                    loader = new FXMLLoader(getClass()
+//                            .getResource("/com/example/truststock/staff_dashboard.fxml"));
+//                    root = loader.load();
+//
+//                    StaffDashboardController staffCtrl = loader.getController();
+//                    staffCtrl.setUser(user);
+//                    break;
+//
+//                case "QC":
+//                    loader = new FXMLLoader(getClass()
+//                            .getResource("/com/example/truststock/quality_checker.fxml"));
+//                    root = loader.load();
+//                    break;
+//
+//                case "CUSTOMER":
+//                    loader = new FXMLLoader(getClass()
+//                            .getResource("/com/example/truststock/customer_page.fxml"));
+//                    root = loader.load();
+//                    break;
+//
+//                default:
+//                    lblMessage.setText("Unknown role: " + user.getRole());
+//                    return;
+//            }
+//
+//            stage.setScene(new Scene(root));
+//            stage.show();
 
         } catch (Exception ex) {
             ex.printStackTrace();
