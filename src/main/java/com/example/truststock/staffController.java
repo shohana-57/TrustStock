@@ -9,14 +9,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.sql.SQLException;
+
 public class staffController {
 
     @FXML private TextField txtUsername;
     @FXML private PasswordField txtPassword;
     @FXML private Label lblMessage;
-
+ private Database db=new Database();
     @FXML
-    void handleLogin() {
+    void handleLogin() throws SQLException {
         String u = txtUsername.getText().trim();
         String p = txtPassword.getText();
 
@@ -24,8 +26,8 @@ public class staffController {
             lblMessage.setText("Enter username and password.");
             return;
         }
-
-        Staff_User user = Database.authenticateUser(u, p);
+db.getConnection();
+        Staff_User user = db.authenticateUser(u, p);
 
         if (user == null) {
             lblMessage.setText("Invalid credentials.");
