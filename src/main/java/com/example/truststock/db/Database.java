@@ -109,35 +109,7 @@ public class Database {
 
     }
 
-    public static void addUser(String username,String fullName, String plainPassword, String role) throws Exception {
-        try (Connection conn = getConnection()) {
 
-            addUser(conn, username,fullName, plainPassword, role);
-        }
-    }
-
-
-    public static String authenticate(String username, String plainPassword) {
-        try (Connection conn = getConnection();
-             PreparedStatement ps = conn.prepareStatement("SELECT password_hash, salt, role FROM users WHERE username = ?")) {
-            ps.setString(1, username);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (!rs.next()) return null;
-                String storedHash = rs.getString("password_hash");
-                String saltB64 = rs.getString("salt");
-                String role = rs.getString("role");
-
-                byte[] salt = Base64.getDecoder().decode(saltB64);
-                String computed = PasswordUtil.hashPassword(plainPassword, salt);
-                if (MessageDigest.isEqual(storedHash.getBytes(), computed.getBytes())) {
-                    return role;
-                } else return null;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 
     public static Staff_User authenticateUser(String username, String plainPassword) {
         try (Connection conn = getConnection();
@@ -153,7 +125,7 @@ public class Database {
                 byte[] salt = Base64.getDecoder().decode(rs.getString("salt"));
                 String computed = PasswordUtil.hashPassword(plainPassword, salt);
 
-                if (storedHash.equals(computed)) {
+                if (MessageDigest.isEqual(storedHash.getBytes(), computed.getBytes())) {
                     return new Staff_User(
                             rs.getInt("id"),
                             rs.getString("username"),

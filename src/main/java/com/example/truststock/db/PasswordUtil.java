@@ -23,8 +23,4 @@ public class PasswordUtil {
         return Base64.getEncoder().encodeToString(digest);
     }
 
-    // convenience (salt in base64)
-    public static String hashPassword(String password, String saltB64) throws Exception {
-        return hashPassword(password, Base64.getDecoder().decode(saltB64));
-    }
 }
