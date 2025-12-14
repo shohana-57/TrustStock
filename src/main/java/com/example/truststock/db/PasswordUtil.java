@@ -14,7 +14,7 @@ public class PasswordUtil {
         return salt;
     }
 
-    // hash using SHA-256(salt + password) -> hex/base64 string
+
     public static String hashPassword(String password, byte[] salt) throws Exception {
         MessageDigest md = MessageDigest.getInstance("SHA-256");
         md.update(salt);
