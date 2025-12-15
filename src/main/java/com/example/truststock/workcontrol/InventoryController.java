@@ -80,6 +80,54 @@ public class InventoryController {
     }
 
     private void loadProducts() {
+        productList.clear();
+        try (Connection conn = Database.getConnection();
+             PreparedStatement ps = conn.prepareStatement("SELECT * FROM products");
+             ResultSet rs = ps.executeQuery()) {
+
+
+
+            while (rs.next()) {
+                Product p = new Product(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getDouble("price"),
+                        rs.getInt("stock"),
+                        rs.getInt("min_stock"),
+                        rs.getString("quality_status")
+                );
+                productList.add(p);
+            }
+            tableProducts.setItems(productList);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    @FXML
+    private void addProduct() {
+        try (Connection conn = Database.getConnection();
+             PreparedStatement ps = conn.prepareStatement(
+                     "INSERT INTO products(name, price, stock, min_stock, quality_status) VALUES(?,?,?,?,?)")) {
+
+            ps.setString(1, txtName.getText().trim());
+            ps.setDouble(2, Double.parseDouble(txtPrice.getText().trim()));
+            ps.setInt(3, Integer.parseInt(txtStock.getText().trim()));
+            ps.setInt(4, Integer.parseInt(txtMinStock.getText().trim()));
+            ps.setString(5, cbQuality.getValue());
+
+            ps.executeUpdate();
+            clearFields();
+            loadProducts();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void clearFields() {
     }
 
 

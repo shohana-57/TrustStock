@@ -1,6 +1,6 @@
 package com.example.truststock.staff;
+
 import com.example.truststock.model.Staff_User;
-import com.sun.javafx.menu.MenuItemBase;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -36,8 +36,13 @@ public class StaffDashboardController {
     }
 
     @FXML
-    void openInventory() {
+    void openInventory() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/truststock/InventoryPage.fxml"));
+        Parent root = loader.load();
 
+        Stage stage = (Stage)btnInventory.getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     @FXML
@@ -59,13 +64,6 @@ public class StaffDashboardController {
     @FXML
     void logout() throws IOException {
 
-
-//        Parent root = FXMLLoader.load(getClass().getResource("/com/example/truststock/HomePage.fxml"));
-//        Stage stage = (Stage) btnLogout.getScene().getWindow();
-//        Scene scene = new Scene(root);
-//
-//        stage.setScene(scene);
-//        stage.show();
         try {
             Parent root = FXMLLoader.load(
                     getClass().getResource("/com/example/truststock/HomePage.fxml")
