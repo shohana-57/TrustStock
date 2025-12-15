@@ -1,4 +1,4 @@
-package com.example.truststock;
+package com.example.truststock.staff;
 import com.example.truststock.model.Staff_User;
 import com.sun.javafx.menu.MenuItemBase;
 import javafx.fxml.FXML;
@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.Objects;
 
 public class StaffDashboardController {
 
@@ -26,7 +27,7 @@ public class StaffDashboardController {
 
     private void loadScene(String fxml) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/com/example/truststock/" + fxml));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/truststock/" + fxml)));
             Stage stage = (Stage) btnLogout.getScene().getWindow();
 
         } catch (Exception e) {

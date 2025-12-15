@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.truststock.staffController"
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.truststock.staff.staffController"
             prefWidth="520" prefHeight="360" style="-fx-background-color:#f7f9fc;">
     <children>
         <VBox alignment="CENTER" spacing="12" AnchorPane.leftAnchor="60" AnchorPane.rightAnchor="60" AnchorPane.topAnchor="50">

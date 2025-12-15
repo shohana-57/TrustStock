@@ -1,4 +1,4 @@
-package com.example.truststock;
+package com.example.truststock.staff;
 
 import com.example.truststock.db.Database;
 import com.example.truststock.model.Staff_User;

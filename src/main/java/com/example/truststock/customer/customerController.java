@@ -1,4 +1,4 @@
-package com.example.truststock;
+package com.example.truststock.customer;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;

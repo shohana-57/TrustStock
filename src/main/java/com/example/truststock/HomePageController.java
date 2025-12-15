@@ -34,7 +34,7 @@ public class HomePageController {
 
     @FXML
     private void openStaffLoginPage() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("staff_login.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/truststock/staff_login.fxml"));
         Parent root = loader.load();
 
         Stage stage = (Stage) btnCompanyStaff.getScene().getWindow();

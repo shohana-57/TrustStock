@@ -13,5 +13,10 @@ module com.example.truststock {
     requires java.desktop;
 
     opens com.example.truststock to javafx.fxml;
+    opens com.example.truststock.staff to javafx.fxml;
+    opens com.example.truststock.db to javafx.fxml;
+    opens com.example.truststock.model to javafx.fxml;
+    opens com.example.truststock.customer to javafx.fxml;
+    opens com.example.truststock.workcontrol to javafx.fxml;
     exports com.example.truststock;
 }

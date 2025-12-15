@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="600" prefWidth="900" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25" fx:controller="com.example.truststock.StaffDashboardController">
+<BorderPane prefHeight="600" prefWidth="900" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25" fx:controller="com.example.truststock.staff.StaffDashboardController">
     <left>
         <VBox spacing="12" style="-fx-background-color:#263238; -fx-padding:20;">
             <Label style="-fx-text-fill: white; -fx-font-size:16;" text="Staff Dashboard" />
