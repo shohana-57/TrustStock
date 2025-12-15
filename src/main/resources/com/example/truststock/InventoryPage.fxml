@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -12,8 +9,6 @@
             fx:controller="com.example.truststock.workcontrol.InventoryController"
             prefWidth="1000" prefHeight="600"
             style="-fx-background-color: #f4f6f8;">
-
-    <!-- TOP BAR -->
     <top>
         <HBox spacing="15" alignment="CENTER_LEFT"
               style="-fx-background-color:#263238;">
@@ -31,5 +26,78 @@
                     style="-fx-background-color:#455A64; -fx-text-fill:white;"/>
         </HBox>
     </top>
+
+    <center>
+    <SplitPane dividerPositions="0.65">
+
+
+    <VBox spacing="10">
+        <padding>
+            <Insets top="15" right="15" bottom="15" left="15"/>
+        </padding>
+
+        <Label text="Product List"
+               style="-fx-font-size:16; -fx-font-weight:bold;"/>
+
+        <TableView fx:id="tableProducts" prefHeight="400">
+            <columns>
+                <TableColumn fx:id="colId" text="ID" prefWidth="60"/>
+                <TableColumn fx:id="colName" text="Product Name" prefWidth="200"/>
+                <TableColumn fx:id="colPrice" text="Price" prefWidth="100"/>
+                <TableColumn fx:id="colStock" text="Stock" prefWidth="80"/>
+                <TableColumn fx:id="colMinStock" text="Min Stock" prefWidth="100"/>
+                <TableColumn fx:id="colQuality" text="Quality" prefWidth="120"/>
+            </columns>
+        </TableView>
+    </VBox>
+
+
+    <VBox spacing="10" style="-fx-background-color:white;">
+    <padding>
+        <Insets top="15" right="15" bottom="15" left="15"/>
+    </padding>
+
+    <Label text="Product Details"
+           style="-fx-font-size:16; -fx-font-weight:bold;"/>
+
+    <GridPane hgap="10" vgap="10">
+    <Label text="Product Name"/>
+    <TextField fx:id="txtName" GridPane.columnIndex="1"/>
+
+    <Label text="Price" GridPane.rowIndex="1"/>
+    <TextField fx:id="txtPrice" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+    <Label text="Stock" GridPane.rowIndex="2"/>
+    <TextField fx:id="txtStock" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+    <Label text="Min Stock" GridPane.rowIndex="3"/>
+    <TextField fx:id="txtMinStock" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+        <Label text="Quality" GridPane.rowIndex="4"/>
+        <ChoiceBox fx:id="cbQuality" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+    </GridPane>
+
+        <Separator/>
+
+        <HBox spacing="10" alignment="CENTER">
+            <Button fx:id="btnAdd" text="Add"
+                    onAction="#addProduct"
+                    style="-fx-background-color:#4CAF50; -fx-text-fill:white;"/>
+
+            <Button  fx:id="btnUpdate" text="Update"
+                    onAction="#updateProduct"
+                    style="-fx-background-color:#2196F3; -fx-text-fill:white;"/>
+
+            <Button fx:id="btnDelete" text="Delete"
+                    onAction="#deleteProduct"
+                    style="-fx-background-color:#E53935; -fx-text-fill:white;"/>
+            <Button fx:id="btnRefresh" text="Refresh"
+                    onAction="#refreshTable"
+                    style="-fx-background-color:#553959; -fx-text-fill:white;"/>
+        </HBox>
+    </VBox>
+
+    </SplitPane>
+    </center>
+
 
 </BorderPane>
