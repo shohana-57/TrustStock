@@ -11,6 +11,7 @@ module com.example.truststock {
     requires eu.hansolo.tilesfx;
     requires java.sql;
     requires java.desktop;
+    requires javafx.graphics;
 
     opens com.example.truststock to javafx.fxml;
     opens com.example.truststock.staff to javafx.fxml;
