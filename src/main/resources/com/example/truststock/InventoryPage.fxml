@@ -6,9 +6,30 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
+<?import javafx.geometry.Insets?>
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.example.truststock.workcontrol.InventoryController"
-            prefHeight="400.0" prefWidth="600.0">
+            prefWidth="1000" prefHeight="600"
+            style="-fx-background-color: #f4f6f8;">
 
-</AnchorPane>
+    <!-- TOP BAR -->
+    <top>
+        <HBox spacing="15" alignment="CENTER_LEFT"
+              style="-fx-background-color:#263238;">
+            <padding>
+                <Insets top="15" right="20" bottom="15" left="20"/>
+            </padding>
+
+            <Label text="Inventory Management"
+                   style="-fx-text-fill:white; -fx-font-size:20; -fx-font-weight:bold;"/>
+
+            <Pane HBox.hgrow="ALWAYS"/>
+
+            <Button text="Back to Dashboard"
+                    onAction="#goBack"
+                    style="-fx-background-color:#455A64; -fx-text-fill:white;"/>
+        </HBox>
+    </top>
+
+</BorderPane>
