@@ -50,39 +50,6 @@ db.getConnection();
             stage.show();
 
 
-//            switch (user.getRole().toUpperCase()) {
-//
-//                case "ADMIN":
-//                case "MANAGER":
-//                case "STOCK":
-//                    loader = new FXMLLoader(getClass()
-//                            .getResource("/com/example/truststock/staff_dashboard.fxml"));
-//                    root = loader.load();
-//
-//                    StaffDashboardController staffCtrl = loader.getController();
-//                    staffCtrl.setUser(user);
-//                    break;
-//
-//                case "QC":
-//                    loader = new FXMLLoader(getClass()
-//                            .getResource("/com/example/truststock/quality_checker.fxml"));
-//                    root = loader.load();
-//                    break;
-//
-//                case "CUSTOMER":
-//                    loader = new FXMLLoader(getClass()
-//                            .getResource("/com/example/truststock/customer_page.fxml"));
-//                    root = loader.load();
-//                    break;
-//
-//                default:
-//                    lblMessage.setText("Unknown role: " + user.getRole());
-//                    return;
-//            }
-//
-//            stage.setScene(new Scene(root));
-//            stage.show();
-
         } catch (Exception ex) {
             ex.printStackTrace();
             lblMessage.setText("Failed to open dashboard.");
