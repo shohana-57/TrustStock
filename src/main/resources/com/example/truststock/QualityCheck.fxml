@@ -1,14 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
+<?import javafx.geometry.Insets?>
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.example.truststock.workcontrol.QualityController"
-            prefHeight="400.0" prefWidth="600.0">
+            prefWidth="900" prefHeight="600">
 
-</AnchorPane>
+
+<top>
+    <HBox spacing="10"
+          style="-fx-background-color:#263238;">
+        <padding>
+            <Insets top="15" right="15" bottom="15" left="15"/>
+        </padding>
+        <Label text="Quality Check Panel"
+               style="-fx-text-fill:white; -fx-font-size:20; -fx-font-weight:bold;"/>
+    </HBox>
+</top>
+
+
+<center>
+    <VBox spacing="10" >
+        <padding>
+            <Insets top="15" right="15" bottom="15" left="15"/>
+        </padding>
+
+        <TableView fx:id="tableProducts" prefHeight="450">
+
+            <columns>
+                <TableColumn fx:id="colId" text="ID" prefWidth="60"/>
+                <TableColumn fx:id="colName" text="Product Name" prefWidth="200"/>
+                <TableColumn fx:id="colStock" text="Stock" prefWidth="100"/>
+                <TableColumn fx:id="colQuality" text="Quality" prefWidth="120"/>
+            </columns>
+
+        </TableView>
+
+    </VBox>
+</center>
+
+
+<bottom>
+    <HBox spacing="10"  alignment="CENTER_RIGHT">
+        <padding>
+            <Insets top="15" right="15" bottom="15" left="15"/>
+        </padding>
+
+        <Label text="Set Quality:"/>
+
+        <ComboBox fx:id="cbQuality" prefWidth="120"/>
+
+        <Button text="Update Quality"
+                fx:id="btnUpdateQuality"
+                style="-fx-background-color:#2e7d32; -fx-text-fill:white;"
+                onAction="#updateQuality"/>
+
+        <Button text="Back"
+                style="-fx-background-color:#546e7a; -fx-text-fill:white;"
+                onAction="#goBack"/>
+
+    </HBox>
+</bottom>
+
+</BorderPane>
+
