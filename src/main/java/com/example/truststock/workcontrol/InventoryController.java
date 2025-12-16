@@ -2,6 +2,9 @@ package com.example.truststock.workcontrol;
 
 import com.example.truststock.model.Product;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -12,10 +15,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javafx.collections.*;
+import javafx.stage.Stage;
+
 import java.sql.*;
 
 
@@ -24,6 +30,7 @@ public class InventoryController {
     public TextField txtPrice;
     public TextField txtStock;
     public TextField txtMinStock;
+    public Button btnLogout;
 
     @FXML private ChoiceBox<String> cbQuality;
 
@@ -191,7 +198,16 @@ public class InventoryController {
         cbQuality.setValue(null);
     }
 
-    public void goBack(ActionEvent actionEvent) {
+    public void goBack(ActionEvent actionEvent)throws IOException {
+        try {
+            Parent root = FXMLLoader.load(
+                    getClass().getResource("/com/example/truststock/staff_dashboard.fxml")
+            );
+            Stage stage = (Stage) btnLogout.getScene().getWindow();
+            stage.setScene(new Scene(root));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
