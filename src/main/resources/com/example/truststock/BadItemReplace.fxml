@@ -24,11 +24,14 @@
 <center>
     <TableView fx:id="tableProducts" prefHeight="400">
         <columns>
-            <TableColumn fx:id="colId" text="ID" />
+            <TableColumn fx:id="colId" text="ID"  prefWidth="80" />
             <TableColumn fx:id="colName" prefWidth="200" text="Product Name" />
             <TableColumn fx:id="colStock" prefWidth="120" text="Stock" />
             <TableColumn fx:id="colQuality" prefWidth="150" text="Quality Status" />
         </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
     </TableView>
 </center>
 
@@ -38,8 +41,8 @@
         <padding>
             <Insets bottom="15" top="15" />
         </padding>
-         <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="79.0" style="-fx-background-color: #fa352a;" text="Exit" />
-         <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="124.0" style="-fx-background-color: skyblue;" text="Go to Dashboard">
+         <Button fx:id="goOut" mnemonicParsing="false" onAction="#goExit" prefHeight="26.0" prefWidth="79.0" style="-fx-background-color: #fa352a;" text="Exit" />
+         <Button fx:id="btnPrev" mnemonicParsing="false" onAction="#gePrev" prefHeight="26.0" prefWidth="124.0" style="-fx-background-color: skyblue;" text="Go to Dashboard">
             <HBox.margin>
                <Insets left="10.0" right="70.0" />
             </HBox.margin>
