@@ -44,11 +44,7 @@ public class ReplacementController {
             colName.setCellValueFactory(new PropertyValueFactory<>("name"));
             colStock.setCellValueFactory(new PropertyValueFactory<>("stock"));
             colQuality.setCellValueFactory(new PropertyValueFactory<>("qualityStatus"));
-            tableProducts.setItems(productList);
 
-            tableProducts.getColumns().setAll(
-                    colId, colName, colStock, colQuality
-            );
 
             tableProducts.setRowFactory(tv -> new TableRow<>() {
                 @Override
@@ -85,10 +81,6 @@ public class ReplacementController {
                             rs.getString("quality_status")
                     ));
                 }
-                System.out.println("Bad products loaded: " + productList.size());
-                productList.forEach(p ->
-                        System.out.println(p.getId() + " | " + p.getName() + " | " + p.getStock())
-                );
 
                 tableProducts.setItems(productList);
 
