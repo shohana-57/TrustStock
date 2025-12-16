@@ -46,17 +46,35 @@ public class StaffDashboardController {
     }
 
     @FXML
-    void openQuality() {
+    void openQuality() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/truststock/QualityCheck.fxml"));
+        Parent root = loader.load();
+
+        Stage stage = (Stage)btnQuality.getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
 
     }
 
     @FXML
-    void openReplace() {
+    void openReplace() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/truststock/BadItemReplace.fxml"));
+        Parent root = loader.load();
+
+        Stage stage = (Stage)btnReplace.getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
 
     }
 
     @FXML
-    void openAlerts() {
+    void openAlerts() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/truststock/AlertForecasting_Page.fxml"));
+        Parent root = loader.load();
+
+        Stage stage = (Stage)btnAlerts.getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
 
     }
 
