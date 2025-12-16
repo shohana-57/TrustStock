@@ -16,8 +16,14 @@ module com.example.truststock {
     opens com.example.truststock to javafx.fxml;
     opens com.example.truststock.staff to javafx.fxml;
     opens com.example.truststock.db to javafx.fxml;
-    opens com.example.truststock.model to javafx.fxml;
     opens com.example.truststock.customer to javafx.fxml;
     opens com.example.truststock.workcontrol to javafx.fxml;
+
+
+    opens com.example.truststock.model to javafx.base;
+
+
     exports com.example.truststock;
+    exports com.example.truststock.staff;
+    exports com.example.truststock.workcontrol;
 }

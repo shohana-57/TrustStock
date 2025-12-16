@@ -1,4 +1,8 @@
 package com.example.truststock.workcontrol;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -10,7 +14,9 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,7 +24,9 @@ import java.time.LocalDate;
 
 public class ReplacementController {
 
-        @FXML private TableView<Product> tableProducts;
+    public Button goOut;
+    public Button btnPrev;
+    @FXML private TableView<Product> tableProducts;
         @FXML private TableColumn<Product, Integer> colId;
         @FXML private TableColumn<Product, String> colName;
         @FXML private TableColumn<Product, Integer> colStock;
@@ -36,6 +44,11 @@ public class ReplacementController {
             colName.setCellValueFactory(new PropertyValueFactory<>("name"));
             colStock.setCellValueFactory(new PropertyValueFactory<>("stock"));
             colQuality.setCellValueFactory(new PropertyValueFactory<>("qualityStatus"));
+            tableProducts.setItems(productList);
+
+            tableProducts.getColumns().setAll(
+                    colId, colName, colStock, colQuality
+            );
 
             tableProducts.setRowFactory(tv -> new TableRow<>() {
                 @Override
@@ -72,6 +85,10 @@ public class ReplacementController {
                             rs.getString("quality_status")
                     ));
                 }
+                System.out.println("Bad products loaded: " + productList.size());
+                productList.forEach(p ->
+                        System.out.println(p.getId() + " | " + p.getName() + " | " + p.getStock())
+                );
 
                 tableProducts.setItems(productList);
 
@@ -136,5 +153,23 @@ public class ReplacementController {
             alert.setContentText(msg);
             alert.show();
         }
+
+    public void goExit(ActionEvent actionEvent) {
+        Stage stage = (Stage) goOut.getScene().getWindow();
+        stage.close();
     }
+
+    public void gePrev(ActionEvent actionEvent) throws IOException {
+        try {
+            Parent root = FXMLLoader.load(
+                    getClass().getResource("/com/example/truststock/staff_dashboard.fxml")
+            );
+            Stage stage = (Stage) btnPrev.getScene().getWindow();
+            stage.setScene(new Scene(root));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+}
 
