@@ -76,8 +76,6 @@ public class InventoryController {
            tableProducts.getSelectionModel().selectedItemProperty().addListener((obs, oldSel, newSel) -> fillFieldsFromTable());
         }
 
-    private void fillFieldsFromTable() {
-    }
 
     private void loadProducts() {
         productList.clear();
@@ -127,7 +125,73 @@ public class InventoryController {
         }
     }
 
+    @FXML
+    private void updateProduct() {
+        Product selected = tableProducts.getSelectionModel().getSelectedItem();
+        if (selected == null) return;
+
+        try (Connection conn = Database.getConnection();
+             PreparedStatement ps = conn.prepareStatement(
+                     "UPDATE products SET name=?, price=?, stock=?, min_stock=?, quality_status=? WHERE id=?")) {
+
+            ps.setString(1, txtName.getText().trim());
+            ps.setDouble(2, Double.parseDouble(txtPrice.getText().trim()));
+            ps.setInt(3, Integer.parseInt(txtStock.getText().trim()));
+            ps.setInt(4, Integer.parseInt(txtMinStock.getText().trim()));
+            ps.setString(5, cbQuality.getValue());
+            ps.setInt(6, selected.getId());
+
+            ps.executeUpdate();
+            clearFields();
+            loadProducts();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void deleteProduct() {
+        Product selected = tableProducts.getSelectionModel().getSelectedItem();
+        if (selected == null) return;
+
+        try (Connection conn = Database.getConnection();
+             PreparedStatement ps = conn.prepareStatement("DELETE FROM products WHERE id=?")) {
+
+            ps.setInt(1, selected.getId());
+            ps.executeUpdate();
+            loadProducts();
+            clearFields();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void refreshTable() {
+        loadProducts();
+        clearFields();
+    }
+
+    private void fillFieldsFromTable() {
+        Product selected = tableProducts.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            txtName.setText(selected.getName());
+            txtPrice.setText(String.valueOf(selected.getPrice()));
+            txtStock.setText(String.valueOf(selected.getStock()));
+            txtMinStock.setText(String.valueOf(selected.getMinStock()));
+            cbQuality.setValue(selected.getQualityStatus());
+        }
+    }
+
     private void clearFields() {
+        txtName.clear();
+        txtPrice.clear();
+        txtStock.clear();
+        txtMinStock.clear();
+        cbQuality.setValue(null);
+    }
+
+    public void goBack(ActionEvent actionEvent) {
     }
 
 
