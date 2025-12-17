@@ -1,14 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.truststock.workcontrol.AlertForecastingController"
-            prefHeight="400.0" prefWidth="600.0">
+<BorderPane prefHeight="600" prefWidth="900" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.truststock.workcontrol.AlertForecastingController">
 
-</AnchorPane>
+<top>
+    <Label style="-fx-font-size:22px; -fx-font-weight:bold;" text="Alerts_Forecasting Dashboard" BorderPane.alignment="CENTER">
+        <BorderPane.margin>
+            <Insets bottom="15" top="15" />
+        </BorderPane.margin>
+    </Label>
+</top>
+
+<center>
+    <SplitPane dividerPositions="0.5" orientation="VERTICAL">
+
+        <VBox spacing="10">
+            <padding>
+                <Insets bottom="10" left="10" right="10" top="10" />
+            </padding>
+            <Label style="-fx-font-size:16; -fx-font-weight:bold;" text="Low Stock Alerts" />
+            <TableView fx:id="tableAlerts" prefHeight="200">
+                <columns>
+                    <TableColumn fx:id="colId" prefWidth="50" text="ID" />
+                    <TableColumn fx:id="colName" prefWidth="200" text="Product Name" />
+                    <TableColumn fx:id="colStock" prefWidth="100" text="Current Stock" />
+                    <TableColumn fx:id="colMinStock" prefWidth="100" text="Minimum Stock" />
+                    <TableColumn fx:id="colStatus" prefWidth="150" text="Status" />
+                </columns>
+            </TableView>
+            <Button fx:id="btnRefreshAlerts" onAction="#loadAlerts" style="-fx-background-color:#2d89ef; -fx-text-fill:white;" text="Refresh Alerts" />
+        </VBox>
+
+
+        <VBox spacing="10">
+            <padding>
+                <Insets bottom="10" left="10" right="10" top="10" />
+
+            </padding>
+            <Label style="-fx-font-size:16; -fx-font-weight:bold;" text="Sales Forecasting" />
+            <LineChart fx:id="salesChart" prefHeight="300" title="Monthly Sales Forecast">
+                <xAxis>
+                    <CategoryAxis label="Month" />
+                </xAxis>
+                <yAxis>
+                    <NumberAxis label="Sales" />
+                </yAxis>
+            </LineChart>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="btnRefreshForecast" onAction="#loadForecast" style="-fx-background-color:#2d89ef; -fx-text-fill:white;" text="Refresh Forecast" />
+                  <Button fx:id="GoBack" mnemonicParsing="false" onAction="#OnDashboard" style="-fx-background-color: lightblue;" text="GoBack">
+                     <HBox.margin>
+                        <Insets left="720.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+        </VBox>
+    </SplitPane>
+</center>
+
+</BorderPane>
