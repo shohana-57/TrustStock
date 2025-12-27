@@ -1,14 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
+<BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.truststock.customer.cartController"
-            prefHeight="400.0" prefWidth="600.0">
+            prefWidth="600" prefHeight="400">
 
-</AnchorPane>
+    <top>
+        <Label text="Your Cart"
+               style="-fx-font-size:20; -fx-font-weight:bold;"
+               BorderPane.alignment="CENTER">
+            <BorderPane.margin>
+                <Insets top="15"/>
+            </BorderPane.margin>
+        </Label>
+    </top>
+
+    <center>
+        <TableView fx:id="cartTable">
+            <columns>
+                <TableColumn fx:id="colName" text="Product"/>
+                <TableColumn fx:id="colPrice" text="Price"/>
+                <TableColumn fx:id="colQty" text="Quantity"/>
+            </columns>
+        </TableView>
+    </center>
+
+    <bottom>
+        <HBox spacing="15" alignment="CENTER">
+            <padding>
+                <Insets top="15" bottom="15"/>
+            </padding>
+
+            <Button text="Checkout" onAction="#checkout"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>
