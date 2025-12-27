@@ -4,7 +4,6 @@ import com.example.truststock.model.Staff_User;
 
 import java.sql.*;
 import java.security.MessageDigest;
-import java.security.SecureRandom;
 import java.util.Base64;
 
 public class Database {

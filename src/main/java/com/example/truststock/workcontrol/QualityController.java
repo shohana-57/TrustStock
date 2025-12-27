@@ -55,9 +55,93 @@ public class QualityController {
             }
         });
 
-
+        loadProducts();
     }
-    
 
+    private void loadProducts() {
+        productList.clear();
+
+        String sql = "SELECT * FROM products";
+
+        try (Connection conn = Database.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                productList.add(new Product(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getDouble("price"),
+                        rs.getInt("stock"),
+                        rs.getInt("min_stock"),
+                        rs.getString("quality_status")
+                ));
+            }
+
+            tableProducts.setItems(productList);
+
+            System.out.println("Products loaded: " + productList.size());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Failed to load products.");
+        }
+    }
+
+
+
+    @FXML
+    private void updateQuality() {
+
+        Product selected = tableProducts.getSelectionModel().getSelectedItem();
+        String newQuality = cbQuality.getValue();
+
+        if (selected == null) {
+            showAlert("Please select a product.");
+            return;
+        }
+
+        if (newQuality == null) {
+            showAlert("Please select quality status.");
+            return;
+        }
+
+        String sql = "UPDATE products SET quality_status=? WHERE id=?";
+
+        try (Connection conn = Database.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, newQuality);
+            ps.setInt(2, selected.getId());
+            ps.executeUpdate();
+
+            loadProducts();
+            cbQuality.getSelectionModel().clearSelection();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Quality update failed.");
+        }
+    }
+
+
+    private void showAlert(String msg) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setHeaderText(null);
+        alert.setContentText(msg);
+        alert.show();
+    }
+
+    public void goProductPage(ActionEvent actionEvent) throws IOException {
+        try {
+            Parent root = FXMLLoader.load(
+                    getClass().getResource("/com/example/truststock/customer_page.fxml")
+            );
+            Stage stage = (Stage) btnGO.getScene().getWindow();
+            stage.setScene(new Scene(root));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }

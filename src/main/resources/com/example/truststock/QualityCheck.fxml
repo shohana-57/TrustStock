@@ -57,9 +57,10 @@
                 style="-fx-background-color:#2e7d32; -fx-text-fill:white;"
                 onAction="#updateQuality"/>
 
-        <Button text="Back"
+        <Button text="ProductPage"
+                fx:id="btnGO"
                 style="-fx-background-color:#546e7a; -fx-text-fill:white;"
-                onAction="#goBack"/>
+                onAction="#goProductPage"/>
 
     </HBox>
 </bottom>
