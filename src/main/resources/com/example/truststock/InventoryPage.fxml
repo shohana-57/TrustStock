@@ -4,6 +4,7 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
 <BorderPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.example.truststock.workcontrol.InventoryController"
@@ -73,6 +74,13 @@
     <TextField fx:id="txtMinStock" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
         <Label text="Quality" GridPane.rowIndex="4"/>
         <ChoiceBox fx:id="cbQuality" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+
+        <Label text="Product Image" GridPane.rowIndex="5"/>
+        <Button fx:id="btnSelectImage" text="Select Image" GridPane.columnIndex="1" GridPane.rowIndex="5"
+                onAction="#selectImage"/>
+        <ImageView fx:id="imgPreview" GridPane.columnIndex="1" GridPane.rowIndex="6" fitWidth="150" fitHeight="150"/>
+
     </GridPane>
 
         <Separator/>
@@ -93,6 +101,7 @@
                     onAction="#refreshTable"
                     style="-fx-background-color:#553959; -fx-text-fill:white;"/>
         </HBox>
+
     </VBox>
 
     </SplitPane>

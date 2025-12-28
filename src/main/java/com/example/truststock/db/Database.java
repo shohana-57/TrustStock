@@ -5,6 +5,7 @@ import com.example.truststock.model.Staff_User;
 import java.sql.*;
 import java.security.MessageDigest;
 import java.util.Base64;
+//import com.example.truststock.images.*;
 
 public class Database {
 
@@ -34,7 +35,8 @@ public class Database {
                     price REAL,
                     stock INTEGER,
                     min_stock INTEGER DEFAULT 0,
-                    quality_status TEXT DEFAULT 'GOOD'
+                    quality_status TEXT DEFAULT 'GOOD',
+                    image_path TEXT DEFAULT ' '
                 )
             """);
 
@@ -68,6 +70,13 @@ public class Database {
             }
             if (!userExists(conn, "customer")) {
                 addUser(conn, "customer", "General Customer", "cust123", "CUSTOMER");
+            }
+
+            st.execute("ALTER TABLE products ADD COLUMN image_path TEXT;");
+        } catch (SQLException e) {
+            // Ignore "duplicate column" error if it already exists
+            if (!e.getMessage().contains("duplicate column name")) {
+                e.printStackTrace();
             }
 
 

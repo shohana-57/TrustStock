@@ -11,7 +11,6 @@
             prefWidth="1100" prefHeight="700"
             style="-fx-background-color:#f5f5f5;">
 
-    <!-- ===== TOP BAR ===== -->
     <top>
         <HBox spacing="15" alignment="CENTER_LEFT"
               style="-fx-background-color:#1976d2;">
@@ -33,7 +32,6 @@
         </HBox>
     </top>
 
-    <!-- ===== PRODUCT GRID ===== -->
     <center>
         <ScrollPane fitToWidth="true">
             <FlowPane fx:id="productContainer"
@@ -46,7 +44,6 @@
         </ScrollPane>
     </center>
 
-    <!-- ===== FOOTER ===== -->
     <bottom>
         <HBox alignment="CENTER_RIGHT"
               style="-fx-background-color:#eeeeee;">

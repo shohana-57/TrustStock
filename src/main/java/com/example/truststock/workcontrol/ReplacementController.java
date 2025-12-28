@@ -78,7 +78,8 @@ public class ReplacementController {
                             rs.getDouble("price"),
                             rs.getInt("stock"),
                             rs.getInt("min_stock"),
-                            rs.getString("quality_status")
+                            rs.getString("quality_status"),
+                            rs.getString("image_path")
                     ));
                 }
 

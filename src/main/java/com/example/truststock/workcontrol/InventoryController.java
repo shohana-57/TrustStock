@@ -15,11 +15,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javafx.collections.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.sql.*;
@@ -31,6 +35,11 @@ public class InventoryController {
     public TextField txtStock;
     public TextField txtMinStock;
     public Button btnLogout;
+    public Button btn_SelectImage;
+    public Label lblImagePath;
+    private String selectedImagePath = null;
+    public Button btnSelectImage;
+    public ImageView imgPreview;
 
     @FXML private ChoiceBox<String> cbQuality;
 
@@ -46,6 +55,7 @@ public class InventoryController {
     @FXML private TableColumn<Product, Integer> colStock;
     @FXML private TableColumn<Product, Integer> colMinStock;
     @FXML private TableColumn<Product, String> colQuality;
+
         private final ObservableList<Product> productList = FXCollections.observableArrayList();
 
         @FXML
@@ -99,7 +109,8 @@ public class InventoryController {
                         rs.getDouble("price"),
                         rs.getInt("stock"),
                         rs.getInt("min_stock"),
-                        rs.getString("quality_status")
+                        rs.getString("quality_status"),
+                        rs.getString("image_path")
                 );
                 productList.add(p);
             }
@@ -111,22 +122,46 @@ public class InventoryController {
 
 
     }
+    @FXML
+    private void selectImage() throws IOException {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select Product Image");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter(
+                        "Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif")
+        );
+
+        File file = fileChooser.showOpenDialog(btnSelectImage.getScene().getWindow());
+
+        if (file != null) {
+
+            selectedImagePath = file.getAbsolutePath();
+
+            lblImagePath.setText(file.getName());
+
+
+            imgPreview.setImage(
+                    new Image(file.toURI().toString(), 150, 150, true, true)
+            );
+        }
+    }
 
     @FXML
     private void addProduct() {
         try (Connection conn = Database.getConnection();
              PreparedStatement ps = conn.prepareStatement(
-                     "INSERT INTO products(name, price, stock, min_stock, quality_status) VALUES(?,?,?,?,?)")) {
+                     "INSERT INTO products(name, price, stock, min_stock, quality_status,image_path) VALUES(?,?,?,?,?,?)")) {
 
             ps.setString(1, txtName.getText().trim());
             ps.setDouble(2, Double.parseDouble(txtPrice.getText().trim()));
             ps.setInt(3, Integer.parseInt(txtStock.getText().trim()));
             ps.setInt(4, Integer.parseInt(txtMinStock.getText().trim()));
             ps.setString(5, cbQuality.getValue());
+            ps.setString(6, selectedImagePath);
 
             ps.executeUpdate();
-            clearFields();
             loadProducts();
+            clearFields();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -139,21 +174,30 @@ public class InventoryController {
 
         try (Connection conn = Database.getConnection();
              PreparedStatement ps = conn.prepareStatement(
-                     "UPDATE products SET name=?, price=?, stock=?, min_stock=?, quality_status=? WHERE id=?")) {
+                     "UPDATE products SET name=?, price=?, stock=?, min_stock=?, quality_status=?, image_path=?, WHERE id=?")) {
 
             ps.setString(1, txtName.getText().trim());
             ps.setDouble(2, Double.parseDouble(txtPrice.getText().trim()));
             ps.setInt(3, Integer.parseInt(txtStock.getText().trim()));
             ps.setInt(4, Integer.parseInt(txtMinStock.getText().trim()));
             ps.setString(5, cbQuality.getValue());
-            ps.setInt(6, selected.getId());
+            ps.setString(6, selectedImagePath != null ? selectedImagePath : selected.getImagePath());
+            ps.setInt(7, selected.getId());
 
             ps.executeUpdate();
             clearFields();
             loadProducts();
         } catch (Exception e) {
             e.printStackTrace();
+            showAlert("Failed to update product");
         }
+    }
+
+    private void showAlert(String msg) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setHeaderText(null);
+        alert.setContentText(msg);
+        alert.showAndWait();
     }
 
     @FXML
@@ -170,6 +214,7 @@ public class InventoryController {
             clearFields();
         } catch (Exception e) {
             e.printStackTrace();
+            showAlert("Failed to delete product!");
         }
     }
 
@@ -187,6 +232,10 @@ public class InventoryController {
             txtStock.setText(String.valueOf(selected.getStock()));
             txtMinStock.setText(String.valueOf(selected.getMinStock()));
             cbQuality.setValue(selected.getQualityStatus());
+            selectedImagePath = selected.getImagePath();
+            if (imgPreview != null && selectedImagePath != null) {
+                imgPreview.setImage(new Image(selectedImagePath, 150, 150, true, true));
+            }
         }
     }
 
@@ -196,6 +245,8 @@ public class InventoryController {
         txtStock.clear();
         txtMinStock.clear();
         cbQuality.setValue(null);
+        selectedImagePath = null;
+        if (imgPreview != null) imgPreview.setImage(null);
     }
 
     public void goBack(ActionEvent actionEvent)throws IOException {

@@ -7,15 +7,19 @@ public class Product {
         private int stock;
         private int minStock;
         private String qualityStatus;
+    private String imagePath;
 
-        public Product(int id, String name, double price, int stock, int minStock, String qualityStatus) {
+
+    public Product(int id, String name, double price, int stock, int minStock, String qualityStatus, String imagePath) {
             this.id = id;
             this.name = name;
             this.price = price;
             this.stock = stock;
             this.minStock = minStock;
             this.qualityStatus = qualityStatus;
-        }
+        this.imagePath = imagePath;
+    }
+
 
         public int getId() { return id; }
         public void setId(int id) { this.id = id; }
@@ -34,6 +38,15 @@ public class Product {
 
         public String getQualityStatus() { return qualityStatus; }
         public void setQualityStatus(String qualityStatus) { this.qualityStatus = qualityStatus; }
+
+      public String getImagePath() {
+    return imagePath;
+         }
+
+        public void setImagePath(String imagePath) {
+            this.imagePath = imagePath;
+        }
+
     }
 
 
