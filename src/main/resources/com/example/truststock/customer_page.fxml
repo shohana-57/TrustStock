@@ -41,6 +41,12 @@
                     <Insets top="20" right="20" bottom="20" left="20"/>
                 </padding>
             </FlowPane>
+            <Label fx:id="lblNoResult"
+                   text="No product found"
+                   visible="false"
+                   style="-fx-text-fill:red; -fx-font-size:14;"
+                   BorderPane.alignment="CENTER"/>
+
         </ScrollPane>
     </center>
 

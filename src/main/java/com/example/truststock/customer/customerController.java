@@ -17,6 +17,7 @@ import java.sql.Statement;
 public class customerController {
 
     public TextField searchField;
+    public Label lblNoResult;
     @FXML private FlowPane productContainer;
     @FXML private TextField txtSearch;
 
