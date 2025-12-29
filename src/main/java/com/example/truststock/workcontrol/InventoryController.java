@@ -35,8 +35,7 @@ public class InventoryController {
     public TextField txtStock;
     public TextField txtMinStock;
     public Button btnLogout;
-    public Button btn_SelectImage;
-    public Label lblImagePath;
+  //  public Label lblImagePath;
     private String selectedImagePath = null;
     public Button btnSelectImage;
     public ImageView imgPreview;
@@ -123,28 +122,20 @@ public class InventoryController {
 
     }
     @FXML
-    private void selectImage() throws IOException {
+    private void selectImage() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select Product Image");
         fileChooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter(
-                        "Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif")
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg")
         );
 
-        File file = fileChooser.showOpenDialog(btnSelectImage.getScene().getWindow());
-
+        File file = fileChooser.showOpenDialog(btnAdd.getScene().getWindow());
         if (file != null) {
-
             selectedImagePath = file.getAbsolutePath();
-
-            lblImagePath.setText(file.getName());
-
-
-            imgPreview.setImage(
-                    new Image(file.toURI().toString(), 150, 150, true, true)
-            );
+            imgPreview.setImage(new Image(file.toURI().toString()));
         }
     }
+
 
     @FXML
     private void addProduct() {
@@ -174,7 +165,7 @@ public class InventoryController {
 
         try (Connection conn = Database.getConnection();
              PreparedStatement ps = conn.prepareStatement(
-                     "UPDATE products SET name=?, price=?, stock=?, min_stock=?, quality_status=?, image_path=?, WHERE id=?")) {
+                     "UPDATE products SET name=?, price=?, stock=?, min_stock=?, quality_status=?, image_path=? WHERE id=?")) {
 
             ps.setString(1, txtName.getText().trim());
             ps.setDouble(2, Double.parseDouble(txtPrice.getText().trim()));

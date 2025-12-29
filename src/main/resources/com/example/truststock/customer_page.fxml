@@ -34,18 +34,20 @@
 
     <center>
         <ScrollPane fitToWidth="true">
-            <FlowPane fx:id="productContainer"
-                      hgap="20" vgap="20"
-                      prefWrapLength="1000">
-                <padding>
-                    <Insets top="20" right="20" bottom="20" left="20"/>
-                </padding>
-            </FlowPane>
-            <Label fx:id="lblNoResult"
-                   text="No product found"
-                   visible="false"
-                   style="-fx-text-fill:red; -fx-font-size:14;"
-                   BorderPane.alignment="CENTER"/>
+            <VBox spacing="10">
+                <FlowPane fx:id="productContainer"
+                          hgap="20" vgap="20"
+                          prefWrapLength="1000">
+                    <padding>
+                        <Insets top="20" right="20" bottom="20" left="20"/>
+                    </padding>
+                </FlowPane>
+
+                <Label fx:id="lblNoResult"
+                       text="No product found"
+                       visible="false"
+                       style="-fx-text-fill:red; -fx-font-size:14;"/>
+            </VBox>
 
         </ScrollPane>
     </center>

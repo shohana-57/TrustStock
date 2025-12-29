@@ -5,8 +5,6 @@ import com.example.truststock.model.Staff_User;
 import java.sql.*;
 import java.security.MessageDigest;
 import java.util.Base64;
-//import com.example.truststock.images.*;
-
 public class Database {
 
     private static final String URL = "jdbc:sqlite:truststock.db";
@@ -59,6 +57,31 @@ public class Database {
         FOREIGN KEY(product_id) REFERENCES products(id)
     )
         """);
+
+            st.execute("""
+                    CREATE TABLE IF NOT EXISTS orders (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        product_id INTEGER,
+                        qty INTEGER,
+                        phone TEXT,
+                        address TEXT
+                    )
+                    
+            """);
+
+            st.execute("""
+                   CREATE TABLE IF NOT EXISTS order_items (
+                               id INTEGER PRIMARY KEY AUTOINCREMENT,
+                               order_id INTEGER,
+                               product_id INTEGER,
+                               quantity INTEGER,
+                               FOREIGN KEY(order_id) REFERENCES orders(id),
+                               FOREIGN KEY(product_id) REFERENCES products(id)
+                           )
+                    
+                    
+            """);
+
 
 
 

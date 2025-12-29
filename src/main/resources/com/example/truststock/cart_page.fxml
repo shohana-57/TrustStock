@@ -2,40 +2,33 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
 
+
+<?import javafx.geometry.Insets?>
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.truststock.customer.cartController"
             prefWidth="600" prefHeight="400">
 
-    <top>
-        <Label text="Your Cart"
-               style="-fx-font-size:20; -fx-font-weight:bold;"
-               BorderPane.alignment="CENTER">
-            <BorderPane.margin>
-                <Insets top="15"/>
-            </BorderPane.margin>
-        </Label>
-    </top>
-
     <center>
-        <TableView fx:id="cartTable">
+        <TableView fx:id="tableCart">
             <columns>
-                <TableColumn fx:id="colName" text="Product"/>
-                <TableColumn fx:id="colPrice" text="Price"/>
-                <TableColumn fx:id="colQty" text="Quantity"/>
+                <TableColumn text="Product" fx:id="colName"/>
+                <TableColumn text="Qty" fx:id="colQty"/>
+                <TableColumn text="Total" fx:id="colTotal"/>
             </columns>
         </TableView>
     </center>
 
     <bottom>
-        <HBox spacing="15" alignment="CENTER">
+        <VBox spacing="10">
             <padding>
-                <Insets top="15" bottom="15"/>
+                <Insets top="15" right="15" bottom="15" left="15"/>
             </padding>
-
-            <Button text="Checkout" onAction="#checkout"/>
-        </HBox>
+            <Label fx:id="lblGrandTotal"/>
+            <TextField fx:id="txtPhone" promptText="Phone Number"/>
+            <TextArea fx:id="txtAddress" promptText="Delivery Address"/>
+            <Button text="Confirm Order" onAction="#placeOrder"/>
+        </VBox>
     </bottom>
 
 </BorderPane>
