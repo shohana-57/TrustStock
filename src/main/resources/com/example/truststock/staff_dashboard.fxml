@@ -14,7 +14,8 @@
             <Button fx:id="btnQuality" onAction="#openQuality" style="-fx-background-color:transparent; -fx-text-fill:white;" text="Quality Check" />
             <Button fx:id="btnReplace" onAction="#openReplace" style="-fx-background-color:transparent; -fx-text-fill:white;" text="Replace Bad Items" />
             <Button fx:id="btnAlerts" onAction="#openAlerts" style="-fx-background-color:transparent; -fx-text-fill:white;" text="Low Stock Alerts" />
-        </VBox>
+            <Button fx:id="btnOrder" onAction="#openOrder" style="-fx-background-color:transparent; -fx-text-fill:white;" text="Show order" />
+         </VBox>
     </left>
 
     <center>

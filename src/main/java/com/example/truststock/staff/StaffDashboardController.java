@@ -1,6 +1,7 @@
 package com.example.truststock.staff;
 
 import com.example.truststock.model.Staff_User;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,6 +22,7 @@ public class StaffDashboardController {
     public Button btnReplace;
     public Button btnQuality;
     public Button btnAlerts;
+    public Button btnOrder;
     @FXML
     private Button btnLogout;
 
@@ -110,6 +112,15 @@ public class StaffDashboardController {
         btnReplace.setDisable(!(role.equals("ADMIN") || role.equals("STOCK")));
         btnQuality.setDisable(!role.equals("QC"));
         btnAlerts.setDisable(!(role.equals("ADMIN") || role.equals("MANAGER")));
+        btnOrder.setDisable(!role.equals("DELIVER"));
     }
 
+    public void openOrder() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/truststock/Staff_order.fxml"));
+        Parent root = loader.load();
+
+        Stage stage = (Stage)btnOrder.getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
 }
