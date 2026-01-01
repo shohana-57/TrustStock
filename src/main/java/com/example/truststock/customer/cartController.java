@@ -4,7 +4,6 @@ import com.example.truststock.model.CartItem;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -13,6 +12,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TableView;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 import javafx.scene.control.*;
 
 
@@ -40,8 +42,6 @@ import javafx.scene.control.*;
 
             tableCart.setItems(CartStore.getCartItems());
             updateTotal();
-           // CartStore.getCartItems().addListener((ListChangeListener<CartItem>) c -> updateTotal());
-
         }
 
         private void updateTotal() {
@@ -59,49 +59,61 @@ import javafx.scene.control.*;
                 lblGrandTotal.setText("Cart is empty!");
                 return;
             }
+
             try (Connection conn = Database.getConnection()) {
                 conn.setAutoCommit(false);
 
+                double grandTotal = 0;
+                for (CartItem item : CartStore.getCartItems()) {
+                    grandTotal += item.getTotal();
+                }
+
+                PreparedStatement orderPs = conn.prepareStatement(
+                        "INSERT INTO orders(phone, address, total, order_date, delivered) VALUES(?,?,?,?,0)",
+                        Statement.RETURN_GENERATED_KEYS
+                );
+                orderPs.setString(1, txtPhone.getText());
+                orderPs.setString(2, txtAddress.getText());
+                orderPs.setDouble(3, grandTotal);
+                orderPs.setString(4, java.time.LocalDateTime.now().toString());
+                orderPs.executeUpdate();
+
+                ResultSet rs = orderPs.getGeneratedKeys();
+                rs.next();
+                int orderId = rs.getInt(1);
+
+                PreparedStatement itemPs = conn.prepareStatement(
+                        "INSERT INTO order_items(order_id, product_id, qty, price) VALUES(?,?,?,?)"
+                );
+
                 for (CartItem item : CartStore.getCartItems()) {
 
-                    try (PreparedStatement ps = conn.prepareStatement(
-                            "UPDATE products SET stock = stock - ? WHERE id=?")) {
-                        ps.setInt(1, item.getQuantity());
-                        ps.setInt(2, item.getProduct().getId());
-                        ps.executeUpdate();
-                    }
+                    itemPs.setInt(1, orderId);
+                    itemPs.setInt(2, item.getProduct().getId());
+                    itemPs.setInt(3, item.getQuantity());
+                    itemPs.setDouble(4, item.getProduct().getPrice());
+                    itemPs.executeUpdate();
 
-                    try (PreparedStatement ps2 = conn.prepareStatement(
-                            "INSERT INTO order_items(product_id, qty, phone, address, delivered) VALUES(?,?,?,?,0)")) {
-                        ps2.setInt(1, item.getProduct().getId());
-                        ps2.setInt(2, item.getQuantity());
-                        ps2.setString(3, txtPhone.getText());
-                        ps2.setString(4, txtAddress.getText());
-                        ps2.executeUpdate();
-                    }
+                    PreparedStatement stockPs = conn.prepareStatement(
+                            "UPDATE products SET stock = stock - ? WHERE id = ?"
+                    );
+                    stockPs.setInt(1, item.getQuantity());
+                    stockPs.setInt(2, item.getProduct().getId());
+                    stockPs.executeUpdate();
                 }
 
-                if (txtPhone.getText().isEmpty() || txtAddress.getText().isEmpty()) {
-                    new Alert(Alert.AlertType.WARNING, "Please enter phone and address").show();
-                    return;
-                }
-
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setHeaderText(null);
                 conn.commit();
-                alert.setContentText("Thank you, Order placed successfully!");
-                alert.showAndWait();
+
+                new Alert(Alert.AlertType.INFORMATION, "Order placed successfully!").showAndWait();
                 CartStore.clear();
                 updateTotal();
 
-
             } catch (Exception e) {
                 e.printStackTrace();
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setHeaderText(null);
-                alert.setContentText("Failed to take order!");
-                alert.showAndWait();
+                new Alert(Alert.AlertType.ERROR, "Failed to place order").show();
             }
         }
+
+
     }
 

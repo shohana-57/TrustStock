@@ -5,17 +5,15 @@
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.truststock.staff.StaffOrderController"
-            prefWidth="800" prefHeight="600"
+            prefWidth="1000" prefHeight="600"
             style="-fx-background-color:#f5f5f5;">
 
     <top>
-        <HBox spacing="10" alignment="CENTER_LEFT"
-              style="-fx-background-color:#1976d2;">
+        <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-background-color:#1976d2;">
             <padding>
                 <Insets top="15" right="20" bottom="15" left="20"/>
             </padding>
-            <Label text="Pending Orders"
-                   style="-fx-font-size:24; -fx-font-weight:bold; -fx-text-fill:white;"/>
+            <Label text="Pending Orders" style="-fx-font-size:24; -fx-font-weight:bold; -fx-text-fill:white;"/>
         </HBox>
     </top>
 
@@ -23,10 +21,11 @@
         <TableView fx:id="tableOrders">
             <columns>
                 <TableColumn text="Order ID" fx:id="colOrderId"/>
-                <TableColumn text="Product" fx:id="colProduct"/>
-                <TableColumn text="Quantity" fx:id="colQty"/>
                 <TableColumn text="Phone" fx:id="colPhone"/>
                 <TableColumn text="Address" fx:id="colAddress"/>
+                <TableColumn text="Order Date" fx:id="colOrderDate"/>
+                <TableColumn text="Total Amount" fx:id="colTotal"/>
+                <TableColumn text="Items Ordered" fx:id="colItems"/>
             </columns>
         </TableView>
     </center>

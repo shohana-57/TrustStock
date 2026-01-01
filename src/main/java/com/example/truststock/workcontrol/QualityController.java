@@ -20,6 +20,8 @@ import java.io.IOException;
 
 public class QualityController {
 
+
+    public Button btnGO;
     @FXML private TableView<Product> tableProducts;
     @FXML private TableColumn<Product, Integer> colId;
     @FXML private TableColumn<Product, String> colName;
@@ -27,7 +29,7 @@ public class QualityController {
     @FXML private TableColumn<Product, String> colQuality;
 
     @FXML private ComboBox<String> cbQuality;
-    @FXML private Button btnGO;
+
 
     private final ObservableList<Product> productList = FXCollections.observableArrayList();
 
@@ -37,9 +39,9 @@ public class QualityController {
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colStock.setCellValueFactory(new PropertyValueFactory<>("stock"));
         colQuality.setCellValueFactory(new PropertyValueFactory<>("qualityStatus"));
-        
+
         cbQuality.getItems().addAll("GOOD", "BAD");
-        
+
         tableProducts.setRowFactory(tv -> new TableRow<>() {
             @Override
             protected void updateItem(Product p, boolean empty) {
@@ -133,16 +135,19 @@ public class QualityController {
         alert.show();
     }
 
-    public void goProductPage(ActionEvent actionEvent) throws IOException {
+    public void goCommentPage() throws IOException {
         try {
-            Parent root = FXMLLoader.load(
-                    getClass().getResource("/com/example/truststock/customer_page.fxml")
-            );
-            Stage stage = (Stage) btnGO.getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/truststock/CustomerCommentPage.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage)btnGO.getScene().getWindow();
+            stage.setTitle("Customer Comments");
             stage.setScene(new Scene(root));
+            stage.show();
         } catch (Exception e) {
             e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Failed to open comment page").show();
         }
     }
 
 }
+

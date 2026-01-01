@@ -59,14 +59,14 @@
                 </yAxis>
             </LineChart>
             <HBox prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Button fx:id="btnRefreshForecast" onAction="#loadForecast" style="-fx-background-color:#2d89ef; -fx-text-fill:white;" text="Refresh Forecast" />
-                  <Button fx:id="GoBack" mnemonicParsing="false" onAction="#OnDashboard" style="-fx-background-color: lightblue;" text="GoBack">
-                     <HBox.margin>
-                        <Insets left="720.0" />
-                     </HBox.margin>
-                  </Button>
-               </children>
+                <Button fx:id="btnRefreshForecast" onAction="#loadForecast"
+                        style="-fx-background-color:#2d89ef; -fx-text-fill:white;" text="Refresh Forecast"/>
+                <Button fx:id="GoBack" mnemonicParsing="false" onAction="#OnDashboard"
+                        style="-fx-background-color: lightblue;" text="GoBack">
+                    <HBox.margin>
+                      <Insets left="720.0"/>
+                    </HBox.margin>
+                </Button>
             </HBox>
         </VBox>
     </SplitPane>

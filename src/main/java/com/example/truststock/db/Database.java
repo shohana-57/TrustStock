@@ -1,3 +1,4 @@
+
 package com.example.truststock.db;
 
 import com.example.truststock.model.Staff_User;
@@ -5,6 +6,7 @@ import com.example.truststock.model.Staff_User;
 import java.sql.*;
 import java.security.MessageDigest;
 import java.util.Base64;
+
 public class Database {
 
     private static final String URL = "jdbc:sqlite:truststock.db";
@@ -18,7 +20,7 @@ public class Database {
                 CREATE TABLE IF NOT EXISTS users (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     username TEXT UNIQUE NOT NULL,
-                     full_name TEXT NOT NULL,
+                    full_name TEXT NOT NULL,
                     password_hash TEXT NOT NULL,
                     salt TEXT NOT NULL,
                     role TEXT NOT NULL
@@ -39,80 +41,80 @@ public class Database {
             """);
 
             st.execute("""
-    CREATE TABLE IF NOT EXISTS sales (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        product_id INTEGER,
-        quantity INTEGER,
-        sale_date TEXT,
-        FOREIGN KEY(product_id) REFERENCES products(id)
-    )
-         """);
+                    CREATE TABLE product_comments (
+                                        id INT AUTO_INCREMENT PRIMARY KEY,
+                                        product_id INT NOT NULL,
+                                        comment_text TEXT NOT NULL,
+                                        comment_date DATETIME,
+                                        FOREIGN KEY (product_id) REFERENCES products(id)
+                                    )
+                            
+                    """);
+
 
             st.execute("""
-    CREATE TABLE IF NOT EXISTS restocks (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        product_id INTEGER,
-        quantity INTEGER,
-        restock_date TEXT,
-        FOREIGN KEY(product_id) REFERENCES products(id)
-    )
-        """);
-
-            st.execute("""
-                    CREATE TABLE IF NOT EXISTS orders (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        product_id INTEGER,
-                        qty INTEGER,
-                        phone TEXT,
-                        address TEXT
-                    )
-                    
-            """);
-
-            st.execute("""
-                   CREATE TABLE IF NOT EXISTS order_items (
-                               id INTEGER PRIMARY KEY AUTOINCREMENT,
-                               product_id INTEGER NOT NULL,
-                               qty INTEGER NOT NULL,
-                               phone TEXT NOT NULL,
-                               address TEXT NOT NULL,
-                               delivered INTEGER DEFAULT 0,
-                               FOREIGN KEY (product_id) REFERENCES products(id)
-                           )
-                    
-                    
+                CREATE TABLE IF NOT EXISTS sales (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    product_id INTEGER,
+                    quantity INTEGER,
+                    sale_date TEXT,
+                    FOREIGN KEY(product_id) REFERENCES products(id)
+                )
             """);
 
 
+            st.execute("""
+                CREATE TABLE IF NOT EXISTS restocks (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    product_id INTEGER,
+                    quantity INTEGER,
+                    restock_date TEXT,
+                    FOREIGN KEY(product_id) REFERENCES products(id)
+                )
+            """);
 
 
-            if (!userExists(conn, "admin")) {
-                addUser(conn, "admin", "System Admin", "admin123", "ADMIN");
-            }
-            if (!userExists(conn, "qc")) {
-                addUser(conn, "qc", "Quality Checker", "qc123", "QC");
-            }
-            if (!userExists(conn, "customer")) {
-                addUser(conn, "customer", "General Customer", "cust123", "CUSTOMER");
-            }
+            st.execute("""
+                CREATE TABLE IF NOT EXISTS orders (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    phone TEXT NOT NULL,
+                    address TEXT NOT NULL,
+                    total REAL NOT NULL,
+                    order_date TEXT NOT NULL,
+                    delivered INTEGER DEFAULT 0
+                )
+            """);
 
-            if (!userExists(conn, "deliver")) {
-                addUser(conn, "deliver", "Delivery Man", "del123", "DELIVER");
-            }
 
-            st.execute("ALTER TABLE products ADD COLUMN image_path TEXT;");
+            st.execute("""
+                CREATE TABLE IF NOT EXISTS order_items (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    order_id INTEGER NOT NULL,
+                    product_id INTEGER NOT NULL,
+                    qty INTEGER NOT NULL,
+                    price REAL NOT NULL,
+                    comment TEXT DEFAULT '',
+                    quality_status TEXT DEFAULT 'PENDING',
+                    FOREIGN KEY (order_id) REFERENCES orders(id),
+                    FOREIGN KEY (product_id) REFERENCES products(id)
+                )
+            """);
+
+
+            if (!userExists(conn, "admin")) addUser(conn, "admin", "System Admin", "admin123", "ADMIN");
+            if (!userExists(conn, "qc")) addUser(conn, "qc", "Quality Checker", "qc123", "QC");
+            if (!userExists(conn, "manager")) addUser(conn, "manager", "General Manager", "manager123", "MANAGER");
+            if (!userExists(conn, "deliver")) addUser(conn, "deliver", "Delivery Man", "del123", "DELIVER");
+
+            System.out.println("Database initialized successfully.");
+
         } catch (SQLException e) {
-
-            if (!e.getMessage().contains("duplicate column name")) {
-                e.printStackTrace();
-            }
-
-
-            System.out.println("Database initialized.");
+            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL);
@@ -128,6 +130,7 @@ public class Database {
         }
     }
 
+
     private static void addUser(Connection conn, String username, String fullName, String plainPassword, String role) throws Exception {
         byte[] salt = PasswordUtil.generateSalt();
         String saltB64 = Base64.getEncoder().encodeToString(salt);
@@ -142,9 +145,7 @@ public class Database {
             ps.setString(5, role);
             ps.executeUpdate();
         }
-
     }
-
 
 
     public static Staff_User authenticateUser(String username, String plainPassword) {
@@ -153,7 +154,6 @@ public class Database {
                      "SELECT id, username, full_name, password_hash, salt, role FROM users WHERE username = ?")) {
 
             ps.setString(1, username);
-
             try (ResultSet rs = ps.executeQuery()) {
                 if (!rs.next()) return null;
 
@@ -175,5 +175,4 @@ public class Database {
         }
         return null;
     }
-
 }

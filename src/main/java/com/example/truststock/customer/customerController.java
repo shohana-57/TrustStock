@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -70,8 +71,8 @@ public class customerController {
         }
     }
 
-    private VBox createProductCard(Product product) {
 
+    private VBox createProductCard(Product product) {
         VBox card = new VBox(8);
         card.setPrefWidth(200);
         card.setStyle("""
@@ -83,14 +84,8 @@ public class customerController {
     """);
         Image image;
         String imgPath = product.getImagePath();
-
-        if (imgPath != null && !imgPath.isBlank()) {
-            File f = new File(imgPath);
-            if (f.exists()) {
-                image = new Image(f.toURI().toString());
-            } else {
-                image = new Image(getClass().getResourceAsStream("/com/example/truststock/images/default.png"));
-            }
+        if (imgPath != null && !imgPath.isBlank() && new File(imgPath).exists()) {
+            image = new Image(new File(imgPath).toURI().toString());
         } else {
             image = new Image(getClass().getResourceAsStream("/com/example/truststock/images/default.png"));
         }
@@ -98,29 +93,73 @@ public class customerController {
         ImageView img = new ImageView(image);
         img.setFitWidth(180);
         img.setFitHeight(150);
-       img.setPreserveRatio(true);
+        img.setPreserveRatio(true);
+
 
         Label name = new Label(product.getName());
         name.setStyle("-fx-font-weight:bold;");
 
         Label price = new Label("$ " + product.getPrice());
-        Label stock = new Label(
-                product.getStock() > 0 ? "In Stock" : "Out of Stock"
-        );
+        Label stock = new Label(product.getStock() > 0 ? "In Stock" : "Out of Stock");
+
 
         Button addToCart = new Button("Add to Cart");
         addToCart.setDisable(product.getStock() <= 0);
-
-
-        card.getChildren().addAll(img, name, price, stock, addToCart);
         addToCart.setOnAction(e -> {
-            CartStore.add(product);
-            new Alert(Alert.AlertType.INFORMATION, "Added to cart").show();
+
+            askQuantityAndAddToCart(product);
         });
 
-        return card;
 
+        Button commentBtn = new Button("Comment");
+        commentBtn.setOnAction(e -> {
+            TextInputDialog commentDialog = new TextInputDialog();
+            commentDialog.setTitle("Comment on " + product.getName());
+            commentDialog.setHeaderText("Write your comment:");
+            commentDialog.setContentText("Comment:");
+            commentDialog.showAndWait().ifPresent(comment -> {
+                if (!comment.isBlank()) {
+                    saveComment(product.getId(), comment);
+                    new Alert(Alert.AlertType.INFORMATION, "Comment added!").show();
+                }
+            });
+        });
+
+        card.getChildren().addAll(img, name, price, stock, addToCart, commentBtn);
+        return card;
     }
+
+    private void askQuantityAndAddToCart(Product product) {
+        if (product.getStock() <= 0) {
+            new Alert(Alert.AlertType.WARNING, "Product is out of stock").show();
+            return;
+        }
+
+        TextInputDialog quantityDialog = new TextInputDialog("1");
+        quantityDialog.setTitle("Select Quantity");
+        quantityDialog.setHeaderText("How many " + product.getName() + " would you like to add?");
+        quantityDialog.setContentText("Quantity:");
+
+        quantityDialog.showAndWait().ifPresent(qtyStr -> {
+            try {
+                int qty = Integer.parseInt(qtyStr);
+
+                if (qty <= 0) {
+                    new Alert(Alert.AlertType.WARNING, "Quantity must be at least 1").show();
+                } else if (qty > product.getStock()) {
+                    new Alert(Alert.AlertType.WARNING, "Only " + product.getStock() + " item(s) available in stock").show();
+                } else {
+
+                    CartStore.add(product, qty);
+                    new Alert(Alert.AlertType.INFORMATION, qty + " item(s) added to cart").show();
+                }
+            } catch (NumberFormatException ex) {
+                new Alert(Alert.AlertType.ERROR, "Please enter a valid number").show();
+            }
+        });
+    }
+
+
 
     @FXML
     private void searchProduct() {
@@ -144,4 +183,19 @@ public class customerController {
             e.printStackTrace();
         }
     }
+
+    private void saveComment(int productId, String comment) {
+        String sql = "INSERT INTO product_comments(product_id, comment_text, comment_date) VALUES(?, ?, ?)";
+        try (Connection conn = Database.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, productId);
+            ps.setString(2, comment);
+            ps.setString(3, java.time.LocalDateTime.now().toString());
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Failed to save comment").show();
+        }
+    }
+
 }

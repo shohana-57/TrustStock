@@ -1,69 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <?import javafx.geometry.Insets?>
-<BorderPane xmlns="http://javafx.com/javafx/21"
-            xmlns:fx="http://javafx.com/fxml/1"
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.example.truststock.workcontrol.QualityController"
-            prefWidth="900" prefHeight="600">
+            prefWidth="800" prefHeight="600"
+            style="-fx-background-color:#f5f5f5;">
 
+    <!-- Top Label -->
+    <top>
+        <Label text="Product Quality Dashboard"
+               style="-fx-font-size:24px; -fx-font-weight:bold; -fx-padding:15;"
+               BorderPane.alignment="CENTER"/>
+    </top>
 
-<top>
-    <HBox spacing="10"
-          style="-fx-background-color:#263238;">
-        <padding>
-            <Insets top="15" right="15" bottom="15" left="15"/>
-        </padding>
-        <Label text="Quality Check Panel"
-               style="-fx-text-fill:white; -fx-font-size:20; -fx-font-weight:bold;"/>
-    </HBox>
-</top>
+    <!-- Center Table -->
+    <center>
+        <VBox spacing="10" >
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <TableView fx:id="tableProducts" prefHeight="450">
+                <columns>
+                    <TableColumn fx:id="colId" text="ID" prefWidth="50"/>
+                    <TableColumn fx:id="colName" text="Product Name" prefWidth="250"/>
+                    <TableColumn fx:id="colStock" text="Stock" prefWidth="100"/>
+                    <TableColumn fx:id="colQuality" text="Quality Status" prefWidth="150"/>
+                </columns>
+            </TableView>
 
-
-<center>
-    <VBox spacing="10" >
-        <padding>
-            <Insets top="15" right="15" bottom="15" left="15"/>
-        </padding>
-
-        <TableView fx:id="tableProducts" prefHeight="450">
-
-            <columns>
-                <TableColumn fx:id="colId" text="ID" prefWidth="60"/>
-                <TableColumn fx:id="colName" text="Product Name" prefWidth="200"/>
-                <TableColumn fx:id="colStock" text="Stock" prefWidth="100"/>
-                <TableColumn fx:id="colQuality" text="Quality" prefWidth="120"/>
-            </columns>
-
-        </TableView>
-
-    </VBox>
-</center>
-
-
-<bottom>
-    <HBox spacing="10"  alignment="CENTER_RIGHT">
-        <padding>
-            <Insets top="15" right="15" bottom="15" left="15"/>
-        </padding>
-
-        <Label text="Set Quality:"/>
-
-        <ComboBox fx:id="cbQuality" prefWidth="120"/>
-
-        <Button text="Update Quality"
-                fx:id="btnUpdateQuality"
-                style="-fx-background-color:#2e7d32; -fx-text-fill:white;"
-                onAction="#updateQuality"/>
-
-        <Button text="ProductPage"
-                fx:id="btnGO"
-                style="-fx-background-color:#546e7a; -fx-text-fill:white;"
-                onAction="#goProductPage"/>
-
-    </HBox>
-</bottom>
+            <!-- Controls for updating quality -->
+            <HBox spacing="15" alignment="CENTER_LEFT" >
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+                <Label text="Set Quality:" style="-fx-font-weight:bold;"/>
+                <ComboBox fx:id="cbQuality" prefWidth="120"/>
+                <Button text="Update Quality" onAction="#updateQuality"
+                        style="-fx-background-color:#4CAF50; -fx-text-fill:white;"/>
+                <Button   fx:id="btnGO" text="Go to Comment Page" onAction="#goCommentPage"
+                        style="-fx-background-color:#2196F3; -fx-text-fill:white;"/>
+            </HBox>
+        </VBox>
+    </center>
 
 </BorderPane>
-

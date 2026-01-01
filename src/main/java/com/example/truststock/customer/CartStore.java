@@ -7,25 +7,25 @@ import javafx.collections.ObservableList;
 
 public class CartStore {
 
-    private static final ObservableList<CartItem> cart =
-            FXCollections.observableArrayList();
+    private static final ObservableList<CartItem> cartItems = FXCollections.observableArrayList();
 
     public static ObservableList<CartItem> getCartItems() {
-        return cart;
+        return cartItems;
     }
 
-    public static void add(Product product) {
-        for (CartItem item : cart) {
+    public static void add(Product product, int quantity) {
+
+        for (CartItem item : cartItems) {
             if (item.getProduct().getId() == product.getId()) {
-               // item.increaseQty();
-                item.setQuantity(item.getQuantity() + 1);
+                item.setQuantity(item.getQuantity() + quantity);
                 return;
             }
         }
-        cart.add(new CartItem(product, 1));
+
+        cartItems.add(new CartItem(product, quantity));
     }
 
     public static void clear() {
-        cart.clear();
+        cartItems.clear();
     }
 }

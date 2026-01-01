@@ -23,6 +23,7 @@ public class StaffDashboardController {
     public Button btnQuality;
     public Button btnAlerts;
     public Button btnOrder;
+
     @FXML
     private Button btnLogout;
 
@@ -123,4 +124,6 @@ public class StaffDashboardController {
         stage.setScene(new Scene(root));
         stage.show();
     }
+
+
 }
