@@ -64,12 +64,6 @@ import javafx.scene.control.*;
 
                 for (CartItem item : CartStore.getCartItems()) {
 
-
-//                    PreparedStatement ps = conn.prepareStatement(
-//                            "UPDATE products SET stock = stock - ? WHERE id=?");
-//                    ps.setInt(1, item.getQuantity());
-//                    ps.setInt(2, item.getProduct().getId());
-//                    ps.executeUpdate();
                     try (PreparedStatement ps = conn.prepareStatement(
                             "UPDATE products SET stock = stock - ? WHERE id=?")) {
                         ps.setInt(1, item.getQuantity());
@@ -77,14 +71,6 @@ import javafx.scene.control.*;
                         ps.executeUpdate();
                     }
 
-
-//                    PreparedStatement ps2 = conn.prepareStatement(
-//                            "INSERT INTO orders(product_id, qty, phone, address) VALUES(?,?,?,?)");
-//                    ps2.setInt(1, item.getProduct().getId());
-//                    ps2.setInt(2, item.getQuantity());
-//                    ps2.setString(3, txtPhone.getText());
-//                    ps2.setString(4, txtAddress.getText());
-//                    ps2.executeUpdate();
                     try (PreparedStatement ps2 = conn.prepareStatement(
                             "INSERT INTO order_items(product_id, qty, phone, address, delivered) VALUES(?,?,?,?,0)")) {
                         ps2.setInt(1, item.getProduct().getId());
@@ -102,6 +88,7 @@ import javafx.scene.control.*;
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setHeaderText(null);
+                conn.commit();
                 alert.setContentText("Thank you, Order placed successfully!");
                 alert.showAndWait();
                 CartStore.clear();

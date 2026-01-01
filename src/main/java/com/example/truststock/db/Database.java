@@ -72,11 +72,12 @@ public class Database {
             st.execute("""
                    CREATE TABLE IF NOT EXISTS order_items (
                                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                               order_id INTEGER,
-                               product_id INTEGER,
-                               quantity INTEGER,
-                               FOREIGN KEY(order_id) REFERENCES orders(id),
-                               FOREIGN KEY(product_id) REFERENCES products(id)
+                               product_id INTEGER NOT NULL,
+                               qty INTEGER NOT NULL,
+                               phone TEXT NOT NULL,
+                               address TEXT NOT NULL,
+                               delivered INTEGER DEFAULT 0,
+                               FOREIGN KEY (product_id) REFERENCES products(id)
                            )
                     
                     
@@ -95,9 +96,13 @@ public class Database {
                 addUser(conn, "customer", "General Customer", "cust123", "CUSTOMER");
             }
 
+            if (!userExists(conn, "deliver")) {
+                addUser(conn, "deliver", "Delivery Man", "del123", "DELIVER");
+            }
+
             st.execute("ALTER TABLE products ADD COLUMN image_path TEXT;");
         } catch (SQLException e) {
-            // Ignore "duplicate column" error if it already exists
+
             if (!e.getMessage().contains("duplicate column name")) {
                 e.printStackTrace();
             }

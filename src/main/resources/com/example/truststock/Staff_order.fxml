@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.truststock.staff.StaffOrderController"
+            prefWidth="800" prefHeight="600"
+            style="-fx-background-color:#f5f5f5;">
+
+    <top>
+        <HBox spacing="10" alignment="CENTER_LEFT"
+              style="-fx-background-color:#1976d2;">
+            <padding>
+                <Insets top="15" right="20" bottom="15" left="20"/>
+            </padding>
+            <Label text="Pending Orders"
+                   style="-fx-font-size:24; -fx-font-weight:bold; -fx-text-fill:white;"/>
+        </HBox>
+    </top>
+
+    <center>
+        <TableView fx:id="tableOrders">
+            <columns>
+                <TableColumn text="Order ID" fx:id="colOrderId"/>
+                <TableColumn text="Product" fx:id="colProduct"/>
+                <TableColumn text="Quantity" fx:id="colQty"/>
+                <TableColumn text="Phone" fx:id="colPhone"/>
+                <TableColumn text="Address" fx:id="colAddress"/>
+            </columns>
+        </TableView>
+    </center>
+
+    <bottom>
+        <HBox spacing="15" alignment="CENTER_RIGHT">
+            <padding>
+                <Insets top="10" right="20" bottom="10" left="20"/>
+            </padding>
+            <Button text="Mark as Delivered" onAction="#markDelivered"/>
+            <Button text="Refresh" onAction="#refreshOrders"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>
