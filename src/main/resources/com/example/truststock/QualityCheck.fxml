@@ -9,14 +9,13 @@
             prefWidth="800" prefHeight="600"
             style="-fx-background-color:#f5f5f5;">
 
-    <!-- Top Label -->
     <top>
         <Label text="Product Quality Dashboard"
                style="-fx-font-size:24px; -fx-font-weight:bold; -fx-padding:15;"
                BorderPane.alignment="CENTER"/>
     </top>
 
-    <!-- Center Table -->
+
     <center>
         <VBox spacing="10" >
             <padding>
@@ -31,7 +30,6 @@
                 </columns>
             </TableView>
 
-            <!-- Controls for updating quality -->
             <HBox spacing="15" alignment="CENTER_LEFT" >
                 <padding>
                     <Insets top="10" right="10" bottom="10" left="10"/>

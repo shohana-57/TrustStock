@@ -8,7 +8,7 @@ public class Order {
     private final SimpleStringProperty address;
     private final SimpleStringProperty orderDate;
     private final SimpleDoubleProperty total;
-    private final SimpleStringProperty items; // all products in one string
+    private final SimpleStringProperty items;
 
     public Order(int orderId, String phone, String address, String orderDate, double total, String items) {
         this.orderId = new SimpleIntegerProperty(orderId);

@@ -57,7 +57,7 @@ public class StaffOrderController {
                 String orderDate = rs.getString("order_date");
                 double total = rs.getDouble("total");
 
-                // fetch products for this order
+
                 String itemsSql = """
                     SELECT p.name, oi.qty 
                     FROM order_items oi
