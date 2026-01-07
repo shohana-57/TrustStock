@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
@@ -30,6 +31,9 @@ public class customerController {
     public void initialize() {
 
         loadProducts("");
+        searchField.textProperty().addListener((obs, oldVal, newVal) -> {
+            loadProducts(newVal.trim());
+        });
     }
 
     private void loadProducts(String keyword) {
@@ -71,8 +75,8 @@ public class customerController {
         }
     }
 
-
     private VBox createProductCard(Product product) {
+
         VBox card = new VBox(8);
         card.setPrefWidth(200);
         card.setStyle("""
@@ -82,19 +86,20 @@ public class customerController {
         -fx-background-radius:8;
         -fx-border-color:#ddd;
     """);
+
         Image image;
         String imgPath = product.getImagePath();
         if (imgPath != null && !imgPath.isBlank() && new File(imgPath).exists()) {
             image = new Image(new File(imgPath).toURI().toString());
         } else {
-            image = new Image(getClass().getResourceAsStream("/com/example/truststock/images/default.png"));
+            image = new Image(getClass().getResourceAsStream(
+                    "/com/example/truststock/images/default.png"));
         }
 
         ImageView img = new ImageView(image);
         img.setFitWidth(180);
         img.setFitHeight(150);
         img.setPreserveRatio(true);
-
 
         Label name = new Label(product.getName());
         name.setStyle("-fx-font-weight:bold;");
@@ -103,31 +108,51 @@ public class customerController {
         Label stock = new Label(product.getStock() > 0 ? "In Stock" : "Out of Stock");
 
 
-        Button addToCart = new Button("Add to Cart");
-        addToCart.setDisable(product.getStock() <= 0);
-        addToCart.setOnAction(e -> {
+        double avgRating = getAverageRating(product.getId());
 
-            askQuantityAndAddToCart(product);
-        });
+        Label ratingText = new Label(
+                avgRating == 0 ? "No ratings yet"
+                        : String.format("%.1f / 5", avgRating)
+        );
+
+        HBox starBox = createStarRating(avgRating);
 
 
-        Button commentBtn = new Button("Comment");
-        commentBtn.setOnAction(e -> {
-            TextInputDialog commentDialog = new TextInputDialog();
-            commentDialog.setTitle("Comment on " + product.getName());
-            commentDialog.setHeaderText("Write your comment:");
-            commentDialog.setContentText("Comment:");
-            commentDialog.showAndWait().ifPresent(comment -> {
-                if (!comment.isBlank()) {
-                    saveComment(product.getId(), comment);
-                    new Alert(Alert.AlertType.INFORMATION, "Comment added!").show();
-                }
+        Button rateBtn = new Button("Rate");
+        rateBtn.setOnAction(e -> {
+
+            ChoiceDialog<Integer> dialog =
+                    new ChoiceDialog<>(5, 1, 2, 3, 4, 5);
+
+            dialog.setTitle("Rate Product");
+            dialog.setHeaderText("Rate " + product.getName());
+            dialog.setContentText("Stars:");
+
+            dialog.showAndWait().ifPresent(rating -> {
+
+                saveRating(product.getId(), rating);
+
+                double newAvg = getAverageRating(product.getId());
+
+                ratingText.setText(String.format("%.1f / 5", newAvg));
+
+                starBox.getChildren().setAll(
+                        createStarRating(newAvg).getChildren()
+                );
             });
         });
 
-        card.getChildren().addAll(img, name, price, stock, addToCart, commentBtn);
+        Button addToCart = new Button("Add to Cart");
+        addToCart.setDisable(product.getStock() <= 0);
+        addToCart.setOnAction(e -> askQuantityAndAddToCart(product));
+
+        card.getChildren().addAll(
+                img, name, price, stock, ratingText, rateBtn, addToCart
+        );
+
         return card;
     }
+
 
     private void askQuantityAndAddToCart(Product product) {
         if (product.getStock() <= 0) {
@@ -160,12 +185,56 @@ public class customerController {
     }
 
 
-
-    @FXML
-    private void searchProduct() {
-        String keyword = searchField.getText().trim();
-        loadProducts(keyword);
+    private double getAverageRating(int productId) {
+        String sql = "SELECT AVG(rating) FROM product_ratings WHERE product_id=?";
+        try (Connection conn = Database.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, productId);
+            ResultSet rs = ps.executeQuery();
+            return rs.next() ? rs.getDouble(1) : 0.0;
+        } catch (Exception e) {
+            return 0.0;
+        }
     }
+
+    private void saveRating(int productId, int rating) {
+        String sql = "INSERT INTO product_ratings(product_id, rating, rating_date) VALUES(?,?,?)";
+        try (Connection conn = Database.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, productId);
+            ps.setInt(2, rating);
+            ps.setString(3, java.time.LocalDateTime.now().toString());
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private HBox createStarRating(double rating) {
+
+        HBox stars = new HBox(2);
+
+        int fullStars = (int) rating;
+        boolean halfStar = (rating - fullStars) >= 0.5;
+
+        for (int i = 1; i <= 5; i++) {
+            Label star = new Label("★");
+            star.setStyle("-fx-font-size:16;");
+
+            if (i <= fullStars) {
+                star.setStyle("-fx-font-size:16; -fx-text-fill:gold;");
+            } else if (i == fullStars + 1 && halfStar) {
+                star.setStyle("-fx-font-size:16; -fx-text-fill:orange;");
+            } else {
+                star.setStyle("-fx-font-size:16; -fx-text-fill:#ccc;");
+            }
+
+            stars.getChildren().add(star);
+        }
+
+        return stars;
+    }
+
 
     @FXML
     private void openCart() {

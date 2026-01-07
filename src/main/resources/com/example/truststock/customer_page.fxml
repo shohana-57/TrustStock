@@ -27,8 +27,6 @@
                        promptText="Search products..."
                        prefWidth="300"/>
 
-            <Button text="Search"
-                    onAction="#searchProduct"/>
         </HBox>
     </top>
 

@@ -2,6 +2,7 @@ package com.example.truststock.staff;
 
 import com.example.truststock.db.Database;
 import com.example.truststock.model.Staff_User;
+import com.example.truststock.session.Staffsession;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -26,35 +27,35 @@ public class staffController {
             lblMessage.setText("Enter username and password.");
             return;
         }
-db.getConnection();
+
         Staff_User user = db.authenticateUser(u, p);
+
+
 
         if (user == null) {
             lblMessage.setText("Invalid credentials.");
             return;
         }
 
+        Staffsession.setUser(user);
+
+
         try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/com/example/truststock/staff_dashboard.fxml")
+            );
+            Parent root = loader.load();
+
             Stage stage = (Stage) txtUsername.getScene().getWindow();
-            FXMLLoader loader;
-            Parent root;
-             loader = new FXMLLoader(
-                    getClass().getResource("/com/example/truststock/staff_dashboard.fxml"));
-             root = loader.load();
-
-            StaffDashboardController controller = loader.getController();
-            controller.setUser(user);   // pass logged-in staff
-
-             stage = (Stage) txtUsername.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
-
 
         } catch (Exception ex) {
             ex.printStackTrace();
             lblMessage.setText("Failed to open dashboard.");
         }
     }
+
 
     @FXML
     void openCustomerView() {

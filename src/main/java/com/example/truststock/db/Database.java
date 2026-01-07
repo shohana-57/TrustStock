@@ -51,6 +51,18 @@ public class Database {
                             
                     """);
 
+            st.execute("""
+                    CREATE TABLE IF NOT EXISTS product_ratings (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        product_id INTEGER NOT NULL,
+                        rating INTEGER NOT NULL CHECK(rating BETWEEN 1 AND 5),
+                        rating_date TEXT,
+                        FOREIGN KEY(product_id) REFERENCES products(id)
+                    );
+                    
+                            
+                    """);
+
 
             st.execute("""
                 CREATE TABLE IF NOT EXISTS sales (
