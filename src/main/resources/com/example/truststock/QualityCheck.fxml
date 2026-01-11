@@ -38,8 +38,9 @@
                 <ComboBox fx:id="cbQuality" prefWidth="120"/>
                 <Button text="Update Quality" onAction="#updateQuality"
                         style="-fx-background-color:#4CAF50; -fx-text-fill:white;"/>
-                <Button   fx:id="btnGO" text="Go to Comment Page" onAction="#goCommentPage"
-                        style="-fx-background-color:#2196F3; -fx-text-fill:white;"/>
+
+                <Button   fx:id="BtnGO" text="Go to Customer Page" onAction="#goCustomerPage"
+                          style="-fx-background-color:#11ABFE; -fx-text-fill:white;"/>
             </HBox>
         </VBox>
     </center>

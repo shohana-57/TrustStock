@@ -13,7 +13,7 @@
     <children>
       <HBox prefHeight="400.0" prefWidth="600.0" style="-fx-background-radius: 20;">
          <children>
-               <ImageView fx:id="logoImage" fitHeight="401.0" fitWidth="273.0" preserveRatio="false" smooth="true">
+               <ImageView fx:id="logoImage" fitHeight="401.0" fitWidth="273.0" preserveRatio="false" smooth="true" HBox.hgrow="ALWAYS">
                    <image>
                        <Image url="@images/Login_Pic.png" />
                    </image>
@@ -21,18 +21,14 @@
                   <Rectangle2D height="300.0" minY="300.0" />
                </viewport>
                </ImageView>
-              <VBox alignment="CENTER" prefHeight="400.0" prefWidth="409.0" spacing="10.0" style="-fx-background-image: url(TrustStock_icon.png);
-               -fx-background-repeat: stretch; -fx-background-size: cover; -fx-background-position: center;">
+              <VBox alignment="CENTER" prefHeight="400.0" prefWidth="409.0" spacing="10.0" style="-fx-background-image: url(TrustStock_icon.png);                -fx-background-repeat: stretch; -fx-background-size: cover; -fx-background-position: center;">
          
                               <Label style="-fx-font-size: 28px; -fx-font-weight: bold;" text="Welcome to TrustStock" />
       
                               <Label style="-fx-font-size: 20px;" text="Enter As?" />
-                  <Button fx:id="btnCompanyStaff" onAction="#openStaffLoginPage" prefHeight="48.0" prefWidth="203.0"
-                          style="-fx-padding: 10 40; -fx-cursor: open-hand; -fx-font-size: 18px; -fx-background-color: #c374f7;"
-                          styleClass="my-button" stylesheets="@login.css" text="Company Staff" />
+                  <Button fx:id="btnCompanyStaff" onAction="#openStaffLoginPage" prefHeight="48.0" prefWidth="203.0" style="-fx-padding: 10 40; -fx-cursor: open-hand; -fx-font-size: 18px; -fx-background-color: #c374f7;" styleClass="my-button" stylesheets="@login.css" text="Company Staff" />
          
-                        <Button fx:id="btnCustomer" onAction="#openCustomerPage" style="-fx-padding: 10 40;
-                        -fx-cursor: open-hand; -fx-font-size: 18px; -fx-background-color: #c374f7;" styleClass="my-button" stylesheets="@login.css" text="Customer" />
+                        <Button fx:id="btnCustomer" onAction="#openCustomerPage" style="-fx-padding: 10 40;                         -fx-cursor: open-hand; -fx-font-size: 18px; -fx-background-color: #c374f7;" styleClass="my-button" stylesheets="@login.css" text="Customer" />
               </VBox>
          </children>
       </HBox>

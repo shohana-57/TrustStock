@@ -21,7 +21,8 @@ import java.io.IOException;
 public class QualityController {
 
 
-    public Button btnGO;
+   // public Button btnGO;
+    public Button BtnGO;
     @FXML private TableView<Product> tableProducts;
     @FXML private TableColumn<Product, Integer> colId;
     @FXML private TableColumn<Product, String> colName;
@@ -135,11 +136,25 @@ public class QualityController {
         alert.show();
     }
 
-    public void goCommentPage() throws IOException {
+//    public void goCommentPage() throws IOException {
+//        try {
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/truststock/CustomerCommentPage.fxml"));
+//            Parent root = loader.load();
+//            Stage stage = (Stage)btnGO.getScene().getWindow();
+//            stage.setTitle("Customer Comments");
+//            stage.setScene(new Scene(root));
+//            stage.show();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            new Alert(Alert.AlertType.ERROR, "Failed to open comment page").show();
+//        }
+//    }
+
+    public void goCustomerPage() throws IOException {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/truststock/CustomerCommentPage.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/truststock/customer_page.fxml"));
             Parent root = loader.load();
-            Stage stage = (Stage)btnGO.getScene().getWindow();
+            Stage stage = (Stage)BtnGO.getScene().getWindow();
             stage.setTitle("Customer Comments");
             stage.setScene(new Scene(root));
             stage.show();
@@ -148,6 +163,5 @@ public class QualityController {
             new Alert(Alert.AlertType.ERROR, "Failed to open comment page").show();
         }
     }
-
 }
 
